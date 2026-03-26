@@ -76,7 +76,7 @@ export default function PortfolioProjectRoute() {
           Share your date, location, and what you want these images to feel like. We will design the
           pacing together.
         </p>
-        <a className="hero-section__action hero-section__action--primary" href={routes.contact}>
+        <a className="btn-ghost btn-ghost--filled" href={routes.contact}>
           Start Your Inquiry
         </a>
       </section>

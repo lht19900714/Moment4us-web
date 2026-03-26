@@ -96,37 +96,41 @@ export default function PortfolioRoute() {
       </section>
 
       {introSection === undefined ? null : (
-        <section className="content-page__section portfolio-page__intro">
-          <p className="content-page__eyebrow">Curated Collection</p>
-          <h2>{introSection.heading}</h2>
-          <p>{introSection.body}</p>
+        <section className="section-dark-alt">
+          <div className="section-inner">
+            <p className="section-eyebrow">Curated Collection</p>
+            <h2 className="section-heading">{introSection.heading}</h2>
+            <p className="section-body">{introSection.body}</p>
+          </div>
         </section>
       )}
 
-      <section className="content-page__section">
-        <div className="masonry-gallery" data-count={data.galleryItems.length}>
-          {data.galleryItems.map((item, index) => (
-            <article className="masonry-gallery__item" key={item.id}>
-              <Link className="masonry-gallery__link" to={item.href}>
-                <img
-                  alt={item.alt}
-                  className="masonry-gallery__image"
-                  height={item.height}
-                  loading={index === 0 ? "eager" : "lazy"}
-                  sizes={item.sizes}
-                  src={item.src}
-                  srcSet={item.srcSet}
-                  width={item.width}
-                />
-                <div className="masonry-gallery__overlay">
-                  <p className="masonry-gallery__category">{item.category}</p>
-                  <h3>{item.title}</h3>
-                  <p>{item.summary}</p>
-                  <span className="portfolio-page__story-link">View Story</span>
-                </div>
-              </Link>
-            </article>
-          ))}
+      <section className="section-dark">
+        <div className="section-inner">
+          <div className="masonry-gallery" data-count={data.galleryItems.length}>
+            {data.galleryItems.map((item, index) => (
+              <article className="masonry-gallery__item" key={item.id}>
+                <Link className="masonry-gallery__link" to={item.href}>
+                  <img
+                    alt={item.alt}
+                    className="masonry-gallery__image"
+                    height={item.height}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    sizes={item.sizes}
+                    src={item.src}
+                    srcSet={item.srcSet}
+                    width={item.width}
+                  />
+                  <div className="masonry-gallery__overlay">
+                    <p className="masonry-gallery__category">{item.category}</p>
+                    <h3>{item.title}</h3>
+                    <p>{item.summary}</p>
+                    <span className="portfolio-page__story-link">View Story</span>
+                  </div>
+                </Link>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
     </main>

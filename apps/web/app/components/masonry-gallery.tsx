@@ -25,7 +25,6 @@ export function MasonryGallery({ items }: MasonryGalleryProps) {
             <div className="masonry-gallery__overlay">
               <p className="masonry-gallery__category">{item.category}</p>
               <h3>{item.title}</h3>
-              <p>{item.summary}</p>
             </div>
           </Link>
         </article>

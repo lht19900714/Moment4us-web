@@ -41,99 +41,116 @@ export default function HomeRoute() {
 
   return (
     <main className="home-page">
-      <div className="home-page__inner">
-        <HeroSection
-          actions={[
-            { label: "View Selected Stories", href: routes.portfolio, variant: "primary" },
-            { label: "Start an Inquiry", href: routes.contact, variant: "secondary" },
-          ]}
-          aside={
-            <div className="hero-proof">
-              <p className="hero-proof__label">Approach</p>
-              <p className="hero-proof__value">Documentary warmth with gentle guidance.</p>
-              <p className="hero-proof__note">
-                Sessions are paced to feel easy, connected, and true to the people in them.
+      <HeroSection
+        actions={[
+          { label: "View Selected Stories", href: routes.portfolio, variant: "primary" },
+          { label: "Start an Inquiry", href: routes.contact, variant: "secondary" },
+        ]}
+        backgroundImage="https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80"
+        body={sections.hero.body}
+        eyebrow="Moment4us Photography Studio"
+        title={sections.hero.heading}
+      />
+
+      {/* Portfolio Preview - dark alt */}
+      <section className="section-dark-alt">
+        <div className="section-inner">
+          <p className="section-eyebrow">Portfolio Preview</p>
+          <h2 className="section-heading">{sections["featured-portfolio"].heading}</h2>
+          <p className="section-body">{sections["featured-portfolio"].body}</p>
+          <MasonryGallery items={data.galleryItems} />
+        </div>
+      </section>
+
+      {/* About + Services - light */}
+      <section className="section-light">
+        <div className="section-inner">
+          <div className="card-grid">
+            <div className="card-light">
+              <p className="section-eyebrow" style={{ color: "var(--accent)" }}>Studio Story</p>
+              <h3 className="section-heading" style={{ color: "var(--text-on-light)", fontSize: "clamp(1.4rem, 3vw, 2rem)" }}>
+                {sections["about-preview"].heading}
+              </h3>
+              <p style={{ color: "var(--text-on-light-muted)", lineHeight: 1.7, fontWeight: 300 }}>
+                {sections["about-preview"].body}
               </p>
             </div>
-          }
-          body={sections.hero.body}
-          eyebrow="Moment4us Photography Studio"
-          highlights={[
-            "Wedding days with honest pacing",
-            "Family sessions shaped around connection",
-            "Portraits that feel polished without feeling stiff",
-          ]}
-          title={sections.hero.heading}
-        />
-
-        <section className="home-panel">
-          <div className="home-panel__intro">
-            <p className="home-panel__eyebrow">Portfolio Preview</p>
-            <h2>{sections["featured-portfolio"].heading}</h2>
-            <p>{sections["featured-portfolio"].body}</p>
-          </div>
-          <MasonryGallery items={data.galleryItems} />
-        </section>
-
-        <div className="home-grid">
-          <section className="home-panel">
-            <p className="home-panel__eyebrow">Studio Story</p>
-            <h2>{sections["about-preview"].heading}</h2>
-            <p>{sections["about-preview"].body}</p>
-          </section>
-
-          <section className="home-panel">
-            <p className="home-panel__eyebrow">Services</p>
-            <h2>{sections["services-snapshot"].heading}</h2>
-            <p>{sections["services-snapshot"].body}</p>
-            <ul className="home-list">
-              <li>Wedding and elopement coverage</li>
-              <li>Family, maternity, and newborn sessions</li>
-              <li>Portraits, branding, and seasonal stories</li>
-            </ul>
-          </section>
-        </div>
-
-        <div className="home-grid">
-          <section className="home-panel">
-            <p className="home-panel__eyebrow">Process</p>
-            <h2>{sections["experience-process"].heading}</h2>
-            <ol className="home-steps">
-              <li>Share your story, date, and what matters most.</li>
-              <li>Build a session plan with location, timing, and pacing support.</li>
-              <li>Receive a polished gallery full of warm tones and real moments.</li>
-            </ol>
-          </section>
-
-          <section className="home-panel">
-            <p className="home-panel__eyebrow">Trust Signals</p>
-            <h2>{sections["trust-signals"].heading}</h2>
-            <div className="trust-signals">
-              <article>
-                <strong>Guided, never rigid</strong>
-                <p>Simple prompts keep people comfortable without flattening personality.</p>
-              </article>
-              <article>
-                <strong>Built for real timelines</strong>
-                <p>Coverage flexes around changing light, family rhythms, and event pace.</p>
-              </article>
-              <article>
-                <strong>Editing with restraint</strong>
-                <p>Color and retouching stay warm and clean without losing texture or truth.</p>
-              </article>
+            <div className="card-light">
+              <p className="section-eyebrow" style={{ color: "var(--accent)" }}>Services</p>
+              <h3 className="section-heading" style={{ color: "var(--text-on-light)", fontSize: "clamp(1.4rem, 3vw, 2rem)" }}>
+                {sections["services-snapshot"].heading}
+              </h3>
+              <p style={{ color: "var(--text-on-light-muted)", lineHeight: 1.7, fontWeight: 300 }}>
+                {sections["services-snapshot"].body}
+              </p>
+              <ul className="home-list" style={{ color: "var(--text-on-light-muted)" }}>
+                <li>Wedding and elopement coverage</li>
+                <li>Family, maternity, and newborn sessions</li>
+                <li>Portraits, branding, and seasonal stories</li>
+              </ul>
             </div>
-          </section>
+          </div>
         </div>
+      </section>
 
-        <section className="home-panel home-panel--cta">
-          <p className="home-panel__eyebrow">Inquiry</p>
-          <h2>{sections["inquiry-cta"].heading}</h2>
-          <p>{sections["inquiry-cta"].body}</p>
-          <Link className="hero-section__action hero-section__action--primary" to={routes.contact}>
+      {/* Process + Trust - dark */}
+      <section className="section-dark">
+        <div className="section-inner">
+          <p className="section-eyebrow">Process</p>
+          <h2 className="section-heading">{sections["experience-process"].heading}</h2>
+          <div className="card-grid">
+            <div className="card-dark">
+              <h3>01 -- Share Your Story</h3>
+              <p>Share your story, date, and what matters most.</p>
+            </div>
+            <div className="card-dark">
+              <h3>02 -- Build a Plan</h3>
+              <p>Build a session plan with location, timing, and pacing support.</p>
+            </div>
+            <div className="card-dark">
+              <h3>03 -- Receive Your Gallery</h3>
+              <p>Receive a polished gallery full of warm tones and real moments.</p>
+            </div>
+          </div>
+
+          <div className="card-grid" style={{ marginTop: "2.5rem" }}>
+            <div className="card-dark">
+              <h3>{sections["trust-signals"].heading}</h3>
+              <div className="trust-signals">
+                <article>
+                  <strong>Guided, never rigid</strong>
+                  <p>Simple prompts keep people comfortable without flattening personality.</p>
+                </article>
+                <article>
+                  <strong>Built for real timelines</strong>
+                  <p>Coverage flexes around changing light, family rhythms, and event pace.</p>
+                </article>
+                <article>
+                  <strong>Editing with restraint</strong>
+                  <p>Color and retouching stay warm and clean without losing texture or truth.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+
+          <div className="quote-block">
+            <p className="quote-text">"Every session is shaped around the people in it -- not around a shot list."</p>
+            <p className="quote-attr">Moment4us Philosophy</p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA section */}
+      <section className="cta-section">
+        <div className="section-inner">
+          <p className="section-eyebrow">Ready?</p>
+          <h2 className="section-heading">{sections["inquiry-cta"].heading}</h2>
+          <p className="section-body">{sections["inquiry-cta"].body}</p>
+          <Link className="btn-ghost btn-ghost--filled" to={routes.contact}>
             Tell Us About Your Day
           </Link>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
   );
 }

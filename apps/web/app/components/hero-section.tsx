@@ -1,4 +1,3 @@
-import type { ReactNode } from "react";
 import { Link } from "react-router";
 
 export interface HeroSectionAction {
@@ -11,30 +10,33 @@ interface HeroSectionProps {
   eyebrow: string;
   title: string;
   body: string;
-  highlights: readonly string[];
   actions: readonly HeroSectionAction[];
-  aside?: ReactNode;
+  backgroundImage?: string;
 }
 
 export function HeroSection({
   eyebrow,
   title,
   body,
-  highlights,
   actions,
-  aside,
+  backgroundImage,
 }: HeroSectionProps) {
+  const hasImage = backgroundImage !== undefined && backgroundImage !== "";
+  const sectionStyle = hasImage
+    ? {
+        backgroundImage: `linear-gradient(180deg, rgba(26, 26, 30, 0.25) 0%, rgba(26, 26, 30, 0.65) 100%), url("${backgroundImage}")`,
+      }
+    : undefined;
+
   return (
-    <section className="hero-section">
+    <section
+      className={`hero-section${hasImage ? " hero-section--with-image" : ""}`}
+      style={sectionStyle}
+    >
       <div className="hero-section__content">
         <p className="hero-section__eyebrow">{eyebrow}</p>
         <h1>{title}</h1>
         <p className="hero-section__body">{body}</p>
-        <ul className="hero-section__highlights" aria-label="Homepage highlights">
-          {highlights.map((highlight) => (
-            <li key={highlight}>{highlight}</li>
-          ))}
-        </ul>
         <div className="hero-section__actions">
           {actions.map((action) => (
             <Link
@@ -47,7 +49,6 @@ export function HeroSection({
           ))}
         </div>
       </div>
-      {aside === undefined ? null : <div className="hero-section__aside">{aside}</div>}
     </section>
   );
 }

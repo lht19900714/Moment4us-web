@@ -6,7 +6,6 @@ const primaryNavItems = [
   { href: routes.portfolio, label: "Portfolio" },
   { href: routes.about, label: "About" },
   { href: routes.services, label: "Services" },
-  { href: routes.contact, label: "Contact" },
 ] as const;
 
 export function SiteHeader() {
@@ -25,6 +24,11 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link className="nav-cta" to={routes.contact}>
+                Inquire
+              </Link>
+            </li>
           </ul>
         </nav>
       </div>

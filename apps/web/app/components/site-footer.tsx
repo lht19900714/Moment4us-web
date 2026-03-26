@@ -2,9 +2,10 @@ import { Link } from "react-router";
 
 import { routes, siteName } from "../../../../packages/shared/src";
 
-const copyrightLabel = "© 2026";
+const copyrightLabel = "\u00A9 2026";
 
 const footerLinks = [
+  { href: routes.portfolio, label: "Portfolio" },
   { href: routes.about, label: "About" },
   { href: routes.services, label: "Services" },
   { href: routes.contact, label: "Contact" },
@@ -14,13 +15,7 @@ export function SiteFooter() {
   return (
     <footer className="site-footer">
       <div className="site-footer__inner">
-        <div>
-          <p className="site-footer__eyebrow">Moment4us</p>
-          <p className="site-footer__copy">
-            Warm, authentic photography for real stories. Placeholder content routes are ready
-            for the first editorial pass.
-          </p>
-        </div>
+        <span className="site-footer__brand">{siteName}</span>
         <nav aria-label="Footer">
           <ul className="site-footer__nav">
             {footerLinks.map((item) => (
@@ -32,10 +27,10 @@ export function SiteFooter() {
             ))}
           </ul>
         </nav>
+        <p className="site-footer__copy">
+          {copyrightLabel} {siteName}. All rights reserved.
+        </p>
       </div>
-      <p className="site-footer__legal">
-        {copyrightLabel} {siteName}
-      </p>
     </footer>
   );
 }

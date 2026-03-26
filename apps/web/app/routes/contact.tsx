@@ -82,8 +82,8 @@ export default function ContactRoute() {
         <p className="content-page__lede">{data.hero}</p>
       </section>
 
-      <section className="content-page__sections">
-        <div className="content-page__section">
+      <section className="section-dark-alt">
+        <div className="section-inner">
           {isSuccess ? (
             <div className="contact-form__success" role="status">
               <h2>Thank you for your inquiry</h2>
@@ -233,7 +233,7 @@ export default function ContactRoute() {
               )}
 
               <button
-                className="contact-form__submit hero-section__action hero-section__action--primary"
+                className="contact-form__submit btn-ghost btn-ghost--filled"
                 disabled={isSubmitting}
                 type="submit"
               >
