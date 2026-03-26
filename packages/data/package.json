@@ -1,0 +1,21 @@
+{
+  "name": "@moment4us/data",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "pnpm --filter @moment4us/shared build && pnpm --filter @moment4us/content build && tsc -p tsconfig.build.json",
+    "test": "pnpm run build && vitest",
+    "lint": "tsc -p tsconfig.json --noEmit --pretty false",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@moment4us/content": "workspace:*",
+    "@moment4us/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

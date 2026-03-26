@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "workers/**/*.ts",
+    ".react-router/types/**/*.d.ts",
+    "*.ts",
+    "*.d.ts"
+  ]
+}

@@ -1,0 +1,183 @@
+import { renderToString } from "react-dom/server";
+import { createRoutesStub } from "react-router";
+import * as ReactRouter from "react-router";
+import { afterEach, vi } from "vitest";
+
+import { createFakeD1Database } from "../../../../../packages/data/src/__tests__/helpers/fake-d1";
+import Root from "../../root";
+import AboutRoute, { loader as aboutLoader, meta as aboutMeta } from "../about";
+import ContactRoute, { loader as contactLoader } from "../contact";
+import HomeRoute, { loader as homeLoader, meta as homeMeta } from "../home";
+import PortfolioRoute, { loader as portfolioLoader, meta as portfolioMeta } from "../portfolio";
+import ServicesRoute, { loader as servicesLoader } from "../services";
+
+afterEach(() => {
+  vi.restoreAllMocks();
+});
+
+test("home route renders the Moment4us heading", async () => {
+  const data = await homeLoader({ context: {} } as never);
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(data);
+
+  const Stub = createRoutesStub([
+    {
+      path: "/",
+      Component: Root,
+      children: [{ index: true, Component: HomeRoute }],
+    },
+  ]);
+  const html = renderToString(<Stub initialEntries={["/"]} />);
+
+  expect(html).toContain("Moment4us");
+  expect(html).toContain("Warm, authentic photography");
+  expect(html).toContain("Selected Stories");
+  expect(html).toContain("About Moment4us");
+  expect(html).toContain("What We Photograph");
+  expect(html).toContain("Let’s Tell Your Story");
+  expect(html).toContain("Portfolio");
+  expect(html).toContain("About");
+  expect(html).toContain("Services");
+  expect(html).toContain("Contact");
+});
+
+test("home route exports a document title", async () => {
+  const data = await homeLoader({ context: {} } as never);
+
+  expect(homeMeta({ data } as never)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        title: data.seo.title,
+      }),
+      expect.objectContaining({
+        name: "description",
+        content: data.seo.description,
+      }),
+    ]),
+  );
+});
+
+test("home loader falls back to fixture content when persisted homepage layout is invalid", async () => {
+  const fakeDb = createFakeD1Database();
+  fakeDb.insert("site_pages", {
+    slug: "home",
+    title: "Broken Homepage",
+    seo_title: "Broken Homepage",
+    seo_description: "Broken homepage description",
+    hero: "Broken homepage hero",
+    sections_json: JSON.stringify([
+      {
+        id: "featured-portfolio",
+        heading: "Broken Section",
+        body: "This layout should not take the homepage down.",
+      },
+    ]),
+    published: 1,
+    seo_json: JSON.stringify({
+      title: "Broken Homepage",
+      description: "Broken homepage description",
+      canonicalPath: "/",
+    }),
+  });
+
+  const data = await homeLoader({
+    context: {
+      cloudflare: {
+        env: {
+          DB: fakeDb,
+        },
+      },
+    },
+  } as never);
+
+  expect(data.page.title).toBe("Moment4us");
+  expect(data.sections.hero.heading).toBe("Warm, authentic photography");
+});
+
+test("home loader falls back to featured project fixtures when portfolio data is invalid", async () => {
+  const fakeDb = createFakeD1Database();
+  fakeDb.insert("portfolio_projects", {
+    slug: "broken-featured-project",
+    title: "Broken Featured Project",
+    category: "Wedding",
+    cover_image: "broken-cover",
+    summary: "Broken summary",
+    story: "Broken story",
+    featured: 1,
+    published_at: "not-a-date",
+    seo_json: null,
+  });
+
+  const data = await homeLoader({
+    context: {
+      cloudflare: {
+        env: {
+          DB: fakeDb,
+        },
+      },
+    },
+  } as never);
+
+  expect(data.featuredProjects[0]?.slug).toBe("harbor-vows");
+  expect(data.galleryItems[0]?.src).toContain("harbor-vows-cover");
+  expect(data.galleryItems[0]?.alt).toContain("Golden-hour portraits");
+});
+
+test("portfolio route renders placeholder content from loader data", () => {
+  const page = portfolioLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
+  const html = renderToString(
+    <ReactRouter.MemoryRouter>
+      <PortfolioRoute />
+    </ReactRouter.MemoryRouter>,
+  );
+
+  expect(html).toContain(page.title);
+  expect(html).toContain(page.sections[0]?.heading ?? "");
+});
+
+test("about route renders starter page content from loader data", () => {
+  const page = aboutLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
+  const html = renderToString(<AboutRoute />);
+
+  expect(html).toContain(page.title);
+  expect(html).toContain(page.sections[0]?.heading ?? "");
+});
+
+test("services route renders starter page content from loader data", () => {
+  const page = servicesLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
+  const html = renderToString(<ServicesRoute />);
+
+  expect(html).toContain(page.title);
+  expect(html).toContain(page.sections[0]?.heading ?? "");
+});
+
+test("contact route renders starter page content from loader data", () => {
+  const page = contactLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
+  const html = renderToString(<ContactRoute />);
+
+  expect(html).toContain(page.title);
+  expect(html).toContain(page.sections[0]?.heading ?? "");
+});
+
+test("about route exports a document title", () => {
+  expect(aboutMeta({} as never)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        title: "About Moment4us",
+      }),
+    ]),
+  );
+});
+
+test("portfolio route exports a document title", () => {
+  expect(portfolioMeta({} as never)).toEqual(
+    expect.arrayContaining([
+      expect.objectContaining({
+        title: "Portfolio",
+      }),
+    ]),
+  );
+});
