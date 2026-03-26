@@ -1,3 +1,4 @@
+import { createElement } from "react";
 import { renderToString } from "react-dom/server";
 import { createRoutesStub } from "react-router";
 import * as ReactRouter from "react-router";
@@ -153,13 +154,27 @@ test("services route renders starter page content from loader data", () => {
   expect(html).toContain(page.sections[0]?.heading ?? "");
 });
 
-test("contact route renders starter page content from loader data", () => {
-  const page = contactLoader();
+test("contact route renders starter page content from loader data", async () => {
+  const page = await contactLoader({ context: {}, request: new Request("http://localhost/contact"), params: {} } as never);
   vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
+  vi.spyOn(ReactRouter, "useFetcher").mockReturnValue({
+    state: "idle",
+    data: undefined,
+    Form: (props: Record<string, unknown>) => createElement("form", props),
+    submit: vi.fn(),
+    load: vi.fn(),
+    formData: undefined,
+    formAction: undefined,
+    formMethod: undefined,
+    formEncType: undefined,
+    key: "",
+    json: vi.fn(),
+    text: vi.fn(),
+  } as unknown as ReturnType<typeof ReactRouter.useFetcher>);
   const html = renderToString(<ContactRoute />);
 
   expect(html).toContain(page.title);
-  expect(html).toContain(page.sections[0]?.heading ?? "");
+  expect(html).toContain("Start the conversation");
 });
 
 test("about route exports a document title", () => {

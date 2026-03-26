@@ -481,6 +481,128 @@ button {
   font-size: 0.95rem;
 }
 
+/* ─── Contact Form ──────────────────────────────────────── */
+
+.contact-form {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.contact-form h2 {
+  margin: 0;
+}
+
+.contact-form__intro {
+  margin: 0;
+  color: #4c3b2d;
+}
+
+.contact-form__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.contact-form__field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.contact-form__label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1e1b16;
+}
+
+.contact-form__label span {
+  color: #7a6246;
+}
+
+.contact-form__input,
+.contact-form__select,
+.contact-form__textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--surface-border);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.62);
+  color: #1e1b16;
+  font: inherit;
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: border-color 0.15s;
+}
+
+.contact-form__input:focus,
+.contact-form__select:focus,
+.contact-form__textarea:focus {
+  border-color: rgba(88, 60, 31, 0.36);
+  outline: 2px solid #2d241a;
+  outline-offset: 0.22rem;
+}
+
+.contact-form__input[aria-invalid="true"],
+.contact-form__select[aria-invalid="true"],
+.contact-form__textarea[aria-invalid="true"] {
+  border-color: #a04030;
+}
+
+.contact-form__select {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234c3b2d' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  padding-right: 2.25rem;
+}
+
+.contact-form__textarea {
+  resize: vertical;
+  min-height: 7rem;
+}
+
+.contact-form__error {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #a04030;
+}
+
+.contact-form__server-error {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(160, 64, 48, 0.08);
+  border: 1px solid rgba(160, 64, 48, 0.2);
+  color: #a04030;
+  font-size: 0.95rem;
+}
+
+.contact-form__submit {
+  justify-self: start;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.contact-form__submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.contact-form__success {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+
+.contact-form__success h2 {
+  margin: 0 0 0.75rem;
+}
+
+.contact-form__success p {
+  margin: 0;
+  color: #4c3b2d;
+  max-width: 36rem;
+  margin-inline: auto;
+}
+
 @media (max-width: 720px) {
   .site-header__inner,
   .site-footer__inner {
@@ -504,7 +626,8 @@ button {
 
   .hero-section,
   .home-grid,
-  .portfolio-project-page__sequence {
+  .portfolio-project-page__sequence,
+  .contact-form__row {
     grid-template-columns: 1fr;
   }
 
