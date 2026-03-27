@@ -26,8 +26,8 @@ const SELECT_ALL_PROJECTS_SQL = `
 
 const UPSERT_PROJECT_SQL = `
   INSERT OR REPLACE INTO portfolio_projects (
-    slug, title, category, cover_image, summary, story, featured, published_at, seo_json
-  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    slug, title, category, cover_image, summary, story, featured, published_at, seo_json, created_at, updated_at
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
 const DELETE_PROJECT_SQL = `
@@ -41,8 +41,8 @@ const DELETE_PROJECT_IMAGES_SQL = `
 `;
 
 const INSERT_PROJECT_IMAGE_SQL = `
-  INSERT INTO portfolio_images (project_slug, image_id, sort_order)
-  VALUES (?, ?, ?)
+  INSERT INTO portfolio_images (id, project_slug, image_id, sort_order, created_at)
+  VALUES (?, ?, ?, ?, ?)
 `;
 
 const COUNT_PROJECTS_SQL = `
@@ -111,6 +111,7 @@ export function createPortfolioProjectsRepository(
       return Promise.all(rows.map((row) => mapPortfolioProjectRow(client, row)));
     },
     async upsertProject(project: PortfolioProject): Promise<void> {
+      const timestamp = new Date().toISOString();
       await client.run(UPSERT_PROJECT_SQL, [
         project.slug,
         project.title,
@@ -121,6 +122,8 @@ export function createPortfolioProjectsRepository(
         project.featured ? 1 : 0,
         project.publishedAt,
         project.seo ? JSON.stringify(project.seo) : null,
+        timestamp,
+        timestamp,
       ]);
 
       // Replace gallery images
@@ -129,7 +132,8 @@ export function createPortfolioProjectsRepository(
       for (let i = 0; i < project.galleryImages.length; i++) {
         const imageId = project.galleryImages[i];
         if (imageId !== undefined) {
-          await client.run(INSERT_PROJECT_IMAGE_SQL, [project.slug, imageId, i]);
+          const imageRowId = `${project.slug}-img-${i}`;
+          await client.run(INSERT_PROJECT_IMAGE_SQL, [imageRowId, project.slug, imageId, i, timestamp]);
         }
       }
     },

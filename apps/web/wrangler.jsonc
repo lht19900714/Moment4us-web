@@ -11,7 +11,7 @@
     {
       "binding": "DB",
       "database_name": "moment4us-db",
-      "database_id": "<your-d1-database-id>",
+      "database_id": "fbeb9a31-7da6-4a84-9222-90bf2ec301f2",
       // Run migrations with:
       //   wrangler d1 migrations apply moment4us-db --local   (dev)
       //   wrangler d1 migrations apply moment4us-db --remote  (production)

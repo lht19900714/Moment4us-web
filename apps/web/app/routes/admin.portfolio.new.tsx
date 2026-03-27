@@ -1,4 +1,4 @@
-import { useFetcher, useNavigate, type ActionFunctionArgs, type MetaFunction } from "react-router";
+import { redirect, useFetcher, type ActionFunctionArgs, type MetaFunction } from "react-router";
 
 import { parsePortfolioProject } from "../../../../packages/content/src";
 import { createPortfolioProjectsRepository, type D1DatabaseLike } from "../../../../packages/data/src";
@@ -12,19 +12,14 @@ interface CloudflareContext {
   };
 }
 
-interface ProjectActionSuccess {
-  ok: true;
-  slug: string;
-}
-
 interface ProjectActionError {
   ok: false;
   error: string;
 }
 
-type ProjectActionResult = ProjectActionSuccess | ProjectActionError;
+type ProjectActionResult = ProjectActionError;
 
-export async function action({ request, context }: ActionFunctionArgs): Promise<ProjectActionResult> {
+export async function action({ request, context }: ActionFunctionArgs): Promise<ProjectActionError | Response> {
   const cfContext = context as CloudflareContext;
   const db = cfContext?.cloudflare?.env?.DB as D1DatabaseLike | undefined;
 
@@ -73,7 +68,7 @@ export async function action({ request, context }: ActionFunctionArgs): Promise<
     const repo = createPortfolioProjectsRepository(db);
     await repo.upsertProject(project);
 
-    return { ok: true, slug: project.slug };
+    return redirect("/admin/portfolio");
   } catch (err) {
     return { ok: false, error: err instanceof Error ? err.message : "Failed to create project." };
   }
@@ -90,15 +85,9 @@ function getString(formData: FormData, key: string): string | undefined {
 
 export default function AdminPortfolioNewRoute() {
   const fetcher = useFetcher<ProjectActionResult>();
-  const navigate = useNavigate();
   const isSubmitting = fetcher.state === "submitting";
   const result = fetcher.data;
   const error = result && !result.ok ? result.error : undefined;
-
-  if (result?.ok) {
-    // Redirect after successful creation
-    navigate(`/admin/portfolio/${result.slug}`, { replace: true });
-  }
 
   return (
     <div className="admin-portfolio-form">

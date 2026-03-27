@@ -1,9 +1,9 @@
+import { cloudflare } from "@cloudflare/vite-plugin";
 import { reactRouter } from "@react-router/dev/vite";
-import { cloudflareDevProxy } from "@react-router/dev/vite/cloudflare";
 import { defineConfig } from "vite";
 
 export default defineConfig(({ mode }) => ({
-  plugins: mode === "test" ? [] : [cloudflareDevProxy(), reactRouter()],
+  plugins: mode === "test" ? [] : [cloudflare({ viteEnvironment: { name: "ssr" } }), reactRouter()],
   server: {
     host: "0.0.0.0",
   },

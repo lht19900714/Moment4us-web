@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, type LoaderFunctionArgs } from "react-router";
+import { Link, Outlet, type LoaderFunctionArgs } from "react-router";
 
 import { requireAdmin } from "../lib/admin-auth.server";
 
@@ -36,18 +36,18 @@ export default function AdminLayout() {
         </div>
 
         <nav className="admin-sidebar__nav">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              end={item.to === "/admin"}
-              className={({ isActive }) =>
-                "admin-sidebar__link" + (isActive ? " admin-sidebar__link--active" : "")
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+          <a href="/admin" className="admin-sidebar__link">
+            Dashboard
+          </a>
+          <Link to="/admin/leads" className="admin-sidebar__link">
+            Leads
+          </Link>
+          <Link to="/admin/portfolio" className="admin-sidebar__link">
+            Portfolio
+          </Link>
+          <Link to="/admin/pages" className="admin-sidebar__link">
+            Pages
+          </Link>
         </nav>
 
         <div className="admin-sidebar__footer">
