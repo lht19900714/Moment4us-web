@@ -30,7 +30,7 @@
   // Public environment variables — safe to commit.
   "vars": {
     // Cloudflare Turnstile widget site key (public, embedded in client HTML).
-    "TURNSTILE_SITE_KEY": "<your-turnstile-site-key>"
+    "TURNSTILE_SITE_KEY": "0x4AAAAAACwoF8pyX4NMigQm"
   }
 
   // -------------------------------------------------------------------
