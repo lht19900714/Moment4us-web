@@ -1,0 +1,6 @@
+{"file": ".gemini/commands/trellis/finish-work.toml", "reason": "Finish work checklist"}
+{"file": ".gemini/commands/trellis/check-backend.toml", "reason": "Backend check spec"}
+{"file": ".gemini/commands/trellis/check-frontend.toml", "reason": "Frontend check spec"}
+{"file": "packages/data/src/repositories/leads.ts", "reason": "Verify action handler correctly uses leads repository"}
+{"file": "packages/content/src/lead.ts", "reason": "Verify form fields match Lead type"}
+{"file": "apps/web/app/styles/global.css", "reason": "Verify CSS follows existing patterns"}

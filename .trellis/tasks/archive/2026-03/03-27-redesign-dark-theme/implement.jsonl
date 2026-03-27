@@ -1,0 +1,15 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": "apps/web/app/styles/global.css", "reason": "Main CSS file to rewrite with new theme"}
+{"file": "apps/web/app/root.tsx", "reason": "Root layout - add Google Fonts, update shell"}
+{"file": "apps/web/app/components/site-header.tsx", "reason": "Navigation component to update"}
+{"file": "apps/web/app/components/site-footer.tsx", "reason": "Footer component to update"}
+{"file": "apps/web/app/components/hero-section.tsx", "reason": "Hero component - add background image support"}
+{"file": "apps/web/app/components/masonry-gallery.tsx", "reason": "Gallery component - add hover overlay"}
+{"file": "apps/web/app/routes/home.tsx", "reason": "Homepage route to update layout"}
+{"file": "apps/web/app/routes/about.tsx", "reason": "About page to update"}
+{"file": "apps/web/app/routes/services.tsx", "reason": "Services page to update"}
+{"file": "apps/web/app/routes/contact.tsx", "reason": "Contact page with dark form styling"}
+{"file": "apps/web/app/routes/portfolio.tsx", "reason": "Portfolio page to update"}
+{"file": "apps/web/app/routes/portfolio.$slug.tsx", "reason": "Portfolio detail page to update"}
+{"file": "docs/design-preview.html", "reason": "Approved design reference"}

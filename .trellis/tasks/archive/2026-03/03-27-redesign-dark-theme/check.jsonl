@@ -1,0 +1,4 @@
+{"file": ".gemini/commands/trellis/finish-work.toml", "reason": "Finish work checklist"}
+{"file": ".gemini/commands/trellis/check-frontend.toml", "reason": "Frontend check spec"}
+{"file": "apps/web/app/styles/global.css", "reason": "Verify CSS matches approved design"}
+{"file": "docs/design-preview.html", "reason": "Approved design reference for comparison"}

@@ -1,0 +1,11 @@
+{"file": ".trellis/workflow.md", "reason": "Project workflow and conventions"}
+{"file": ".trellis/spec/backend/index.md", "reason": "Backend development guide"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Frontend development guide"}
+{"file": "packages/data/src/repositories/leads.ts", "reason": "Leads repository with createLead() - the action handler calls this"}
+{"file": "packages/content/src/lead.ts", "reason": "Lead type definition and parseLead() validator"}
+{"file": "packages/shared/src/constants.ts", "reason": "leadTypes, leadStatuses, serviceTypes constants"}
+{"file": "apps/web/app/routes/contact.tsx", "reason": "Current contact route to rewrite with form + action"}
+{"file": "apps/web/app/loaders/home.server.ts", "reason": "Pattern reference for accessing D1 via context.cloudflare.env"}
+{"file": "apps/web/app/styles/global.css", "reason": "Global CSS to extend with form styles"}
+{"file": "apps/web/app/routes/home.tsx", "reason": "Pattern reference for route loader/meta structure"}
+{"file": "packages/data/src/d1/client.ts", "reason": "D1 client helper used by repositories"}
