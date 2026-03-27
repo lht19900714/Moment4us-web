@@ -78,7 +78,7 @@ export async function action({ request, context }: ActionFunctionArgs): Promise<
   const status = formData.get("status");
 
   if (typeof id !== "string" || id.length === 0) {
-    return { ok: false, error: "Lead ID is required." };
+    return { ok: false, error: "Inquiry ID is required." };
   }
 
   if (typeof status !== "string" || !(leadStatuses as readonly string[]).includes(status)) {
@@ -91,7 +91,7 @@ export async function action({ request, context }: ActionFunctionArgs): Promise<
   return { ok: true };
 }
 
-export const meta: MetaFunction = () => [{ title: "Leads | Admin | Moment4us" }];
+export const meta: MetaFunction = () => [{ title: "Inquiry | Admin | Moment4us" }];
 
 function formatDate(isoDate: string): string {
   try {
@@ -120,11 +120,11 @@ export default function AdminLeadsRoute() {
 
   return (
     <div className="admin-leads">
-      <h1 className="admin-page-title">Leads</h1>
-      <p className="admin-page-subtitle">{data.leads.length} total leads</p>
+      <h1 className="admin-page-title">Inquiry</h1>
+      <p className="admin-page-subtitle">{data.leads.length} total inquiries</p>
 
       {data.leads.length === 0 ? (
-        <p className="admin-empty">No leads yet.</p>
+        <p className="admin-empty">No inquiries yet.</p>
       ) : (
         <div className="admin-table-wrap">
           <table className="admin-table">
@@ -132,8 +132,11 @@ export default function AdminLeadsRoute() {
               <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
                 <th>Service</th>
-                <th>Date</th>
+                <th>Message</th>
+                <th>Preferred Date</th>
+                <th>Submitted</th>
                 <th>Status</th>
                 <th>Action</th>
               </tr>
@@ -161,7 +164,10 @@ function LeadRow({ lead }: { lead: LeadItem }) {
           {lead.email}
         </a>
       </td>
+      <td>{lead.phone || "—"}</td>
       <td>{lead.serviceType}</td>
+      <td className="admin-leads__message">{lead.message}</td>
+      <td>{lead.eventDate ? formatDate(lead.eventDate) : "—"}</td>
       <td>{formatDate(lead.createdAt)}</td>
       <td>
         <span className={`admin-badge admin-badge--${lead.status}`}>

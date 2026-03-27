@@ -1,4 +1,4 @@
-import { Link, Outlet, type LoaderFunctionArgs } from "react-router";
+import { Link, NavLink, Outlet, type LoaderFunctionArgs } from "react-router";
 
 import { requireAdmin } from "../lib/admin-auth.server";
 
@@ -18,8 +18,8 @@ export async function loader({ request, context }: LoaderFunctionArgs) {
 }
 
 const navItems = [
-  { to: "/admin", label: "Dashboard" },
-  { to: "/admin/leads", label: "Leads" },
+  { to: "/admin", label: "Dashboard", end: true },
+  { to: "/admin/leads", label: "Inquiry" },
   { to: "/admin/portfolio", label: "Portfolio" },
   { to: "/admin/pages", label: "Pages" },
 ];
@@ -36,18 +36,11 @@ export default function AdminLayout() {
         </div>
 
         <nav className="admin-sidebar__nav">
-          <a href="/admin" className="admin-sidebar__link">
-            Dashboard
-          </a>
-          <Link to="/admin/leads" className="admin-sidebar__link">
-            Leads
-          </Link>
-          <Link to="/admin/portfolio" className="admin-sidebar__link">
-            Portfolio
-          </Link>
-          <Link to="/admin/pages" className="admin-sidebar__link">
-            Pages
-          </Link>
+          {navItems.map((item) => (
+            <NavLink key={item.to} to={item.to} end={"end" in item} className="admin-sidebar__link">
+              {item.label}
+            </NavLink>
+          ))}
         </nav>
 
         <div className="admin-sidebar__footer">

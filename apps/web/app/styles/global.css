@@ -1852,6 +1852,14 @@ button {
   white-space: nowrap;
 }
 
+.admin-leads__message {
+  max-width: 250px;
+  white-space: pre-line;
+  word-break: break-word;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
 .admin-link {
   color: var(--accent);
   text-decoration: none;

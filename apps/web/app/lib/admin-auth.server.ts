@@ -50,7 +50,7 @@ export function createAdminSession(headers: Headers): void {
   const token = generateSessionToken();
   const parts = [
     `${SESSION_COOKIE_NAME}=${token}`,
-    "Path=/admin",
+    "Path=/",
     "HttpOnly",
     "SameSite=Strict",
     "Max-Age=86400", // 24 hours
@@ -70,7 +70,7 @@ export function createAdminSession(headers: Headers): void {
 export function clearAdminSession(headers: Headers): void {
   const parts = [
     `${SESSION_COOKIE_NAME}=`,
-    "Path=/admin",
+    "Path=/",
     "HttpOnly",
     "SameSite=Strict",
     "Max-Age=0",

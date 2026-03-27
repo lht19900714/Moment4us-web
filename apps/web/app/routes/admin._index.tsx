@@ -64,7 +64,7 @@ export default function AdminDashboardRoute() {
       <div className="admin-stats">
         <div className="admin-stat-card">
           <span className="admin-stat-card__value">{data.totalLeads}</span>
-          <span className="admin-stat-card__label">Total Leads</span>
+          <span className="admin-stat-card__label">Total Inquiries</span>
           <span className="admin-stat-card__detail">
             {newLeads} new, {contactedLeads} contacted
           </span>
