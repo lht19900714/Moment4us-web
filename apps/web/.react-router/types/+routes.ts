@@ -31,12 +31,35 @@ type Pages = {
   "/contact": {
     params: {};
   };
+  "/admin/login": {
+    params: {};
+  };
+  "/admin": {
+    params: {};
+  };
+  "/admin/leads": {
+    params: {};
+  };
+  "/admin/portfolio": {
+    params: {};
+  };
+  "/admin/portfolio/new": {
+    params: {};
+  };
+  "/admin/portfolio/:slug": {
+    params: {
+      "slug": string;
+    };
+  };
+  "/admin/pages": {
+    params: {};
+  };
 };
 
 type RouteFiles = {
   "root.tsx": {
     id: "root";
-    page: "/" | "/portfolio" | "/portfolio/:slug" | "/about" | "/services" | "/contact";
+    page: "/" | "/portfolio" | "/portfolio/:slug" | "/about" | "/services" | "/contact" | "/admin/login" | "/admin" | "/admin/leads" | "/admin/portfolio" | "/admin/portfolio/new" | "/admin/portfolio/:slug" | "/admin/pages";
   };
   "./routes/home.tsx": {
     id: "routes/home";
@@ -62,6 +85,38 @@ type RouteFiles = {
     id: "routes/contact";
     page: "/contact";
   };
+  "./routes/admin.login.tsx": {
+    id: "routes/admin.login";
+    page: "/admin/login";
+  };
+  "./routes/admin.tsx": {
+    id: "routes/admin";
+    page: "/admin" | "/admin/leads" | "/admin/portfolio" | "/admin/portfolio/new" | "/admin/portfolio/:slug" | "/admin/pages";
+  };
+  "./routes/admin._index.tsx": {
+    id: "routes/admin._index";
+    page: "/admin";
+  };
+  "./routes/admin.leads.tsx": {
+    id: "routes/admin.leads";
+    page: "/admin/leads";
+  };
+  "./routes/admin.portfolio.tsx": {
+    id: "routes/admin.portfolio";
+    page: "/admin/portfolio";
+  };
+  "./routes/admin.portfolio.new.tsx": {
+    id: "routes/admin.portfolio.new";
+    page: "/admin/portfolio/new";
+  };
+  "./routes/admin.portfolio.$slug.tsx": {
+    id: "routes/admin.portfolio.$slug";
+    page: "/admin/portfolio/:slug";
+  };
+  "./routes/admin.pages.tsx": {
+    id: "routes/admin.pages";
+    page: "/admin/pages";
+  };
 };
 
 type RouteModules = {
@@ -72,4 +127,12 @@ type RouteModules = {
   "routes/about": typeof import("./app/./routes/about.tsx");
   "routes/services": typeof import("./app/./routes/services.tsx");
   "routes/contact": typeof import("./app/./routes/contact.tsx");
+  "routes/admin.login": typeof import("./app/./routes/admin.login.tsx");
+  "routes/admin": typeof import("./app/./routes/admin.tsx");
+  "routes/admin._index": typeof import("./app/./routes/admin._index.tsx");
+  "routes/admin.leads": typeof import("./app/./routes/admin.leads.tsx");
+  "routes/admin.portfolio": typeof import("./app/./routes/admin.portfolio.tsx");
+  "routes/admin.portfolio.new": typeof import("./app/./routes/admin.portfolio.new.tsx");
+  "routes/admin.portfolio.$slug": typeof import("./app/./routes/admin.portfolio.$slug.tsx");
+  "routes/admin.pages": typeof import("./app/./routes/admin.pages.tsx");
 };

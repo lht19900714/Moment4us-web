@@ -19,6 +19,14 @@
     }
   ],
 
+  // Cloudflare R2 object storage — stores portfolio images and other media.
+  "r2_buckets": [
+    {
+      "binding": "IMAGES_BUCKET",
+      "bucket_name": "moment4us-images"
+    }
+  ],
+
   // Public environment variables — safe to commit.
   "vars": {
     // Cloudflare Turnstile widget site key (public, embedded in client HTML).
@@ -29,5 +37,10 @@
   // Secrets — do NOT put these in this file. Set them via:
   //   wrangler secret put TURNSTILE_SECRET_KEY
   //   wrangler secret put STUDIO_EMAIL
+  //   wrangler secret put ADMIN_PASSWORD_HASH
+  //
+  // Environment variables (set via vars or dashboard):
+  //   CLOUDFLARE_IMAGES_ACCOUNT_HASH — your Cloudflare Images account hash
+  //   CLOUDFLARE_IMAGES_VARIANT — image delivery variant (default: "public")
   // -------------------------------------------------------------------
 }

@@ -1,5 +1,5 @@
-import { parseLead, type Lead, type LeadType } from "@moment4us/content";
-import { parseISODateString, type ISODateString } from "@moment4us/shared";
+import { parseLead, type Lead, type LeadStatus, type LeadType } from "@moment4us/content";
+import { leadStatuses, parseISODateString, type ISODateString } from "@moment4us/shared";
 
 import { ensureD1Client, type D1Client, type D1DatabaseLike } from "../d1/client.js";
 
@@ -19,6 +19,51 @@ const INSERT_LEAD_SQL = `
   ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `;
 
+const SELECT_ALL_LEADS_SQL = `
+  SELECT id, type, name, email, phone, service_type, event_date, message, status, created_at, updated_at
+  FROM leads
+  ORDER BY created_at DESC
+`;
+
+const UPDATE_LEAD_STATUS_SQL = `
+  UPDATE leads
+  SET status = ?, updated_at = ?
+  WHERE id = ?
+`;
+
+const COUNT_LEADS_SQL = `
+  SELECT COUNT(*) as total FROM leads
+`;
+
+const COUNT_LEADS_BY_STATUS_SQL = `
+  SELECT status, COUNT(*) as count
+  FROM leads
+  GROUP BY status
+`;
+
+interface LeadRow {
+  id: string;
+  type: string;
+  name: string;
+  email: string;
+  phone: string | null;
+  service_type: string;
+  event_date: string | null;
+  message: string;
+  status: string;
+  created_at: string;
+  updated_at: string;
+}
+
+interface LeadCountByStatusRow {
+  status: string;
+  count: number;
+}
+
+interface LeadCountRow {
+  total: number;
+}
+
 export interface CreateLeadInput {
   type: LeadType;
   name: string;
@@ -29,8 +74,17 @@ export interface CreateLeadInput {
   message: string;
 }
 
+export interface LeadStatusCount {
+  status: LeadStatus;
+  count: number;
+}
+
 export interface LeadsRepository {
   createLead(input: CreateLeadInput): Promise<Lead>;
+  listLeads(): Promise<Lead[]>;
+  updateLeadStatus(id: string, status: LeadStatus): Promise<void>;
+  countLeads(): Promise<number>;
+  countLeadsByStatus(): Promise<LeadStatusCount[]>;
 }
 
 export interface LeadRepositoryOptions {
@@ -88,7 +142,60 @@ export function createLeadsRepository(
 
       return lead;
     },
+
+    async listLeads(): Promise<Lead[]> {
+      const rows = await client.all<LeadRow>(SELECT_ALL_LEADS_SQL);
+      return rows.map(mapLeadRow);
+    },
+
+    async updateLeadStatus(id: string, status: LeadStatus): Promise<void> {
+      if (typeof id !== "string" || id.trim().length === 0) {
+        throw new Error("lead id must be a non-empty string");
+      }
+
+      if (!(leadStatuses as readonly string[]).includes(status)) {
+        throw new Error(`lead status must be one of: ${leadStatuses.join(", ")}`);
+      }
+
+      const timestamp = now();
+      await client.run(UPDATE_LEAD_STATUS_SQL, [status, timestamp, id]);
+    },
+
+    async countLeads(): Promise<number> {
+      const row = await client.first<LeadCountRow>(COUNT_LEADS_SQL);
+      return row?.total ?? 0;
+    },
+
+    async countLeadsByStatus(): Promise<LeadStatusCount[]> {
+      const rows = await client.all<LeadCountByStatusRow>(COUNT_LEADS_BY_STATUS_SQL);
+      return rows
+        .filter((row) => (leadStatuses as readonly string[]).includes(row.status))
+        .map((row) => ({ status: row.status as LeadStatus, count: row.count }));
+    },
   };
+}
+
+function mapLeadRow(row: LeadRow): Lead {
+  const record: Record<string, unknown> = {
+    id: row.id,
+    type: row.type,
+    name: row.name,
+    email: row.email,
+    serviceType: row.service_type,
+    message: row.message,
+    status: row.status,
+    createdAt: row.created_at,
+  };
+
+  if (row.phone !== null) {
+    record.phone = row.phone;
+  }
+
+  if (row.event_date !== null) {
+    record.eventDate = row.event_date;
+  }
+
+  return parseLead(record);
 }
 
 function defaultCreateId(): string {
@@ -136,4 +243,8 @@ function toHex(bytes: Uint8Array): string {
 
 export const leadsSql = {
   insertLead: INSERT_LEAD_SQL,
+  selectAllLeads: SELECT_ALL_LEADS_SQL,
+  updateLeadStatus: UPDATE_LEAD_STATUS_SQL,
+  countLeads: COUNT_LEADS_SQL,
+  countLeadsByStatus: COUNT_LEADS_BY_STATUS_SQL,
 } satisfies Record<string, string>;

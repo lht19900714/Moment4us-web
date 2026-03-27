@@ -136,22 +136,32 @@ test("portfolio route renders placeholder content from loader data", () => {
   expect(html).toContain(page.sections[0]?.heading ?? "");
 });
 
-test("about route renders starter page content from loader data", () => {
-  const page = aboutLoader();
-  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
-  const html = renderToString(<AboutRoute />);
+test("about route renders editorial page content from loader data", () => {
+  const data = aboutLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(data);
+  const html = renderToString(
+    <ReactRouter.MemoryRouter>
+      <AboutRoute />
+    </ReactRouter.MemoryRouter>,
+  );
 
-  expect(html).toContain(page.title);
-  expect(html).toContain(page.sections[0]?.heading ?? "");
+  expect(html).toContain("Stories Told in Warm Light");
+  expect(html).toContain("Founded on the Belief That Every Moment Matters");
 });
 
-test("services route renders starter page content from loader data", () => {
-  const page = servicesLoader();
-  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(page);
-  const html = renderToString(<ServicesRoute />);
+test("services route renders service cards and section content", () => {
+  const data = servicesLoader();
+  vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(data);
+  const html = renderToString(
+    <ReactRouter.MemoryRouter>
+      <ServicesRoute />
+    </ReactRouter.MemoryRouter>,
+  );
 
-  expect(html).toContain(page.title);
-  expect(html).toContain(page.sections[0]?.heading ?? "");
+  expect(html).toContain("Services");
+  expect(html).toContain("Wedding &amp; Elopement");
+  expect(html).toContain("How It Works");
+  expect(html).toContain("Start Your Inquiry");
 });
 
 test("contact route renders starter page content from loader data", async () => {
@@ -178,10 +188,11 @@ test("contact route renders starter page content from loader data", async () => 
 });
 
 test("about route exports a document title", () => {
-  expect(aboutMeta({} as never)).toEqual(
+  const data = aboutLoader();
+  expect(aboutMeta({ data } as never)).toEqual(
     expect.arrayContaining([
       expect.objectContaining({
-        title: "About Moment4us",
+        title: "About Moment4us — Our Story & Philosophy",
       }),
     ]),
   );

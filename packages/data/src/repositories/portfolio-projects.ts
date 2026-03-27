@@ -18,6 +18,37 @@ const SELECT_FEATURED_PROJECTS_SQL = `
   LIMIT ?
 `;
 
+const SELECT_ALL_PROJECTS_SQL = `
+  SELECT slug, title, category, cover_image, summary, story, featured, published_at, seo_json
+  FROM portfolio_projects
+  ORDER BY published_at DESC
+`;
+
+const UPSERT_PROJECT_SQL = `
+  INSERT OR REPLACE INTO portfolio_projects (
+    slug, title, category, cover_image, summary, story, featured, published_at, seo_json
+  ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+`;
+
+const DELETE_PROJECT_SQL = `
+  DELETE FROM portfolio_projects
+  WHERE slug = ?
+`;
+
+const DELETE_PROJECT_IMAGES_SQL = `
+  DELETE FROM portfolio_images
+  WHERE project_slug = ?
+`;
+
+const INSERT_PROJECT_IMAGE_SQL = `
+  INSERT INTO portfolio_images (project_slug, image_id, sort_order)
+  VALUES (?, ?, ?)
+`;
+
+const COUNT_PROJECTS_SQL = `
+  SELECT COUNT(*) as total FROM portfolio_projects
+`;
+
 const SELECT_PROJECT_IMAGES_SQL = `
   SELECT image_id
   FROM portfolio_images
@@ -41,9 +72,17 @@ interface PortfolioImageRow {
   image_id: string;
 }
 
+interface CountRow {
+  total: number;
+}
+
 export interface PortfolioProjectsRepository {
   getProjectBySlug(slug: string): Promise<PortfolioProject | null>;
   listFeaturedProjects(limit?: number): Promise<PortfolioProject[]>;
+  listAllProjects(): Promise<PortfolioProject[]>;
+  upsertProject(project: PortfolioProject): Promise<void>;
+  deleteProject(slug: string): Promise<void>;
+  countProjects(): Promise<number>;
 }
 
 export function createPortfolioProjectsRepository(
@@ -66,6 +105,42 @@ export function createPortfolioProjectsRepository(
       const rows = await client.all<PortfolioProjectRow>(SELECT_FEATURED_PROJECTS_SQL, [limit]);
 
       return Promise.all(rows.map((row) => mapPortfolioProjectRow(client, row)));
+    },
+    async listAllProjects(): Promise<PortfolioProject[]> {
+      const rows = await client.all<PortfolioProjectRow>(SELECT_ALL_PROJECTS_SQL);
+      return Promise.all(rows.map((row) => mapPortfolioProjectRow(client, row)));
+    },
+    async upsertProject(project: PortfolioProject): Promise<void> {
+      await client.run(UPSERT_PROJECT_SQL, [
+        project.slug,
+        project.title,
+        project.category,
+        project.coverImage,
+        project.summary,
+        project.story,
+        project.featured ? 1 : 0,
+        project.publishedAt,
+        project.seo ? JSON.stringify(project.seo) : null,
+      ]);
+
+      // Replace gallery images
+      await client.run(DELETE_PROJECT_IMAGES_SQL, [project.slug]);
+
+      for (let i = 0; i < project.galleryImages.length; i++) {
+        const imageId = project.galleryImages[i];
+        if (imageId !== undefined) {
+          await client.run(INSERT_PROJECT_IMAGE_SQL, [project.slug, imageId, i]);
+        }
+      }
+    },
+    async deleteProject(slug: string): Promise<void> {
+      const normalizedSlug = parseSlugSegment(slug, "portfolio project slug");
+      await client.run(DELETE_PROJECT_IMAGES_SQL, [normalizedSlug]);
+      await client.run(DELETE_PROJECT_SQL, [normalizedSlug]);
+    },
+    async countProjects(): Promise<number> {
+      const row = await client.first<CountRow>(COUNT_PROJECTS_SQL);
+      return row?.total ?? 0;
     },
   };
 }
@@ -106,4 +181,10 @@ export const portfolioProjectsSql = {
   selectProjectBySlug: SELECT_PROJECT_BY_SLUG_SQL,
   selectFeaturedProjects: SELECT_FEATURED_PROJECTS_SQL,
   selectProjectImages: SELECT_PROJECT_IMAGES_SQL,
+  selectAllProjects: SELECT_ALL_PROJECTS_SQL,
+  upsertProject: UPSERT_PROJECT_SQL,
+  deleteProject: DELETE_PROJECT_SQL,
+  deleteProjectImages: DELETE_PROJECT_IMAGES_SQL,
+  insertProjectImage: INSERT_PROJECT_IMAGE_SQL,
+  countProjects: COUNT_PROJECTS_SQL,
 } satisfies Record<string, string>;

@@ -5,6 +5,7 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLocation,
 } from "react-router";
 
 import { SiteFooter } from "./components/site-footer";
@@ -41,6 +42,13 @@ export function Layout({ children }: { children: ReactNode }) {
 }
 
 export default function Root() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
+  if (isAdmin) {
+    return <Outlet />;
+  }
+
   return (
     <div className="site-shell">
       <SiteHeader />
