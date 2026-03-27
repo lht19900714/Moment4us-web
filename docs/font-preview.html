@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Moment4us — Brand Font Preview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Cinzel:wght@400;500;600;700&family=Josefin+Sans:wght@300;400;500;600;700&family=Montserrat:wght@300;400;500;600;700&family=Raleway:wght@300;400;500;600;700&family=DM+Serif+Display&family=Lora:wght@400;500;600;700&family=Cormorant:wght@400;500;600;700&family=Italiana&family=Forum&family=Poiret+One&family=Marcellus&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+:root {
+  --bg-deep: #1a1a1e;
+  --bg-elevated: #2a2a2f;
+  --accent: #c9a87c;
+  --text-on-dark: #f5f0e8;
+  --text-on-dark-muted: #9a9590;
+  --border-dark: rgba(255, 255, 255, 0.06);
+}
+* { box-sizing: border-box; margin: 0; }
+body {
+  font-family: "Inter", sans-serif;
+  background: var(--bg-deep);
+  color: var(--text-on-dark);
+  padding: 3rem 2rem;
+}
+h1 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 400;
+  margin-bottom: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-family: "Inter", sans-serif;
+}
+.subtitle {
+  text-align: center;
+  color: var(--text-on-dark-muted);
+  font-size: 0.9rem;
+  margin-bottom: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 1.5rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-dark);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  transition: border-color 0.3s;
+}
+.card:hover { border-color: var(--accent); }
+.card-number {
+  font-family: "Inter", sans-serif;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+.brand-name {
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+.brand-name-lg {
+  font-size: 2.4rem;
+}
+.brand-name-sm {
+  font-size: 1.2rem;
+  letter-spacing: 0.12em;
+  color: var(--text-on-dark-muted);
+  margin-bottom: 1.25rem;
+}
+.font-info {
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-on-dark-muted);
+  line-height: 1.6;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-dark);
+}
+.font-info strong { color: var(--text-on-dark); font-weight: 500; }
+.tag {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-right: 0.35rem;
+  margin-top: 0.35rem;
+}
+.tag--rec { background: rgba(201,168,124,0.2); color: var(--accent); }
+.tag--style { background: rgba(255,255,255,0.06); color: var(--text-on-dark-muted); }
+.nav-demo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(26,26,30,0.85);
+  border-radius: 0.5rem;
+  margin-top: 1rem;
+  border: 1px solid var(--border-dark);
+}
+.nav-demo-links {
+  display: flex;
+  gap: 1rem;
+  font-family: "Inter", sans-serif;
+  font-size: 0.75rem;
+  color: var(--text-on-dark-muted);
+}
+.current {
+  background: rgba(201,168,124,0.15);
+  border: 1px solid var(--accent);
+}
+.current .card-number::after {
+  content: " — CURRENT";
+  color: var(--text-on-dark-muted);
+}
+@media (max-width: 480px) {
+  .grid { grid-template-columns: 1fr; }
+  .brand-name-lg { font-size: 1.8rem; }
+  body { padding: 2rem 1rem; }
+}
+</style>
+</head>
+<body>
+
+<h1>Brand Font Selection</h1>
+<p class="subtitle">
+  以下字体方案均考虑了 "Moment4us" 中字母与数字 "4" 的高度一致性。<br>
+  点击选择你喜欢的方案编号。
+</p>
+
+<div class="grid">
+
+  <!-- A: Current (Playfair Display) -->
+  <div class="card current">
+    <div class="card-number">A — Playfair Display</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Playfair Display',serif; font-weight:600; letter-spacing:0.08em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Playfair Display',serif; font-weight:400; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Playfair Display',serif; font-weight:600; font-size:0.9rem; letter-spacing:0.12em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>问题：</strong>数字 "4" 使用 Old Style 比例，高度低于大写字母，视觉不齐<br>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Old Style Figures</span>
+    </div>
+  </div>
+
+  <!-- B: Cormorant Garamond -->
+  <div class="card">
+    <div class="card-number">B — Cormorant Garamond</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Cormorant Garamond',serif; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Cormorant Garamond',serif; font-weight:400; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Cormorant Garamond',serif; font-weight:600; font-size:0.9rem; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>高对比衬线，精致典雅，数字高度更统一<br>
+      <strong>适合：</strong>奢华品牌、时尚、高端服务<br>
+      <span class="tag tag--rec">推荐</span>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Elegant</span>
+    </div>
+  </div>
+
+  <!-- C: Cinzel -->
+  <div class="card">
+    <div class="card-number">C — Cinzel</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Cinzel',serif; font-weight:500; letter-spacing:0.12em;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Cinzel',serif; font-weight:400; letter-spacing:0.2em;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Cinzel',serif; font-weight:500; font-size:0.85rem; letter-spacing:0.15em;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>灵感来自罗马碑文，全大写设计，字母数字高度完全一致<br>
+      <strong>适合：</strong>建筑、珠宝、高端地产、经典品牌<br>
+      <span class="tag tag--rec">高度最统一</span>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Display</span>
+    </div>
+  </div>
+
+  <!-- D: Montserrat -->
+  <div class="card">
+    <div class="card-number">D — Montserrat</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Montserrat',sans-serif; font-weight:500; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Montserrat',sans-serif; font-weight:300; letter-spacing:0.2em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Montserrat',sans-serif; font-weight:500; font-size:0.85rem; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>几何无衬线，现代简洁，字符高度完全均匀<br>
+      <strong>适合：</strong>现代品牌、科技、时尚、建筑<br>
+      <span class="tag tag--style">Sans-Serif</span>
+      <span class="tag tag--style">Geometric</span>
+    </div>
+  </div>
+
+  <!-- E: Josefin Sans -->
+  <div class="card">
+    <div class="card-number">E — Josefin Sans</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Josefin Sans',sans-serif; font-weight:400; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Josefin Sans',sans-serif; font-weight:300; letter-spacing:0.22em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Josefin Sans',sans-serif; font-weight:400; font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>Art Deco 风格无衬线，轻盈优雅，高度极均匀<br>
+      <strong>适合：</strong>时尚、美容、精品店、摄影<br>
+      <span class="tag tag--rec">推荐</span>
+      <span class="tag tag--style">Sans-Serif</span>
+      <span class="tag tag--style">Art Deco</span>
+    </div>
+  </div>
+
+  <!-- F: Raleway -->
+  <div class="card">
+    <div class="card-number">F — Raleway</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Raleway',sans-serif; font-weight:400; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Raleway',sans-serif; font-weight:300; letter-spacing:0.22em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Raleway',sans-serif; font-weight:400; font-size:0.85rem; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>优雅细线无衬线，极简现代，数字与字母完美对齐<br>
+      <strong>适合：</strong>摄影、设计、奢华生活方式品牌<br>
+      <span class="tag tag--style">Sans-Serif</span>
+      <span class="tag tag--style">Thin</span>
+    </div>
+  </div>
+
+  <!-- G: Marcellus -->
+  <div class="card">
+    <div class="card-number">G — Marcellus</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Marcellus',serif; font-weight:400; letter-spacing:0.12em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Marcellus',serif; font-weight:400; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Marcellus',serif; font-weight:400; font-size:0.85rem; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>古典碑文衬线，庄重但不沉重，数字高度统一<br>
+      <strong>适合：</strong>法律、建筑、文化机构、精品品牌<br>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Classical</span>
+    </div>
+  </div>
+
+  <!-- H: Forum -->
+  <div class="card">
+    <div class="card-number">H — Forum</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Forum',serif; font-weight:400; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Forum',serif; font-weight:400; letter-spacing:0.2em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Forum',serif; font-weight:400; font-size:0.9rem; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>受 Art Nouveau 启发的衬线，轻盈通透，有呼吸感<br>
+      <strong>适合：</strong>艺术画廊、摄影、手工艺品牌<br>
+      <span class="tag tag--rec">推荐</span>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Art Nouveau</span>
+    </div>
+  </div>
+
+  <!-- I: Italiana -->
+  <div class="card">
+    <div class="card-number">I — Italiana</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Italiana',serif; font-weight:400; letter-spacing:0.1em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Italiana',serif; font-weight:400; letter-spacing:0.18em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Italiana',serif; font-weight:400; font-size:0.85rem; letter-spacing:0.12em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>意大利文艺复兴风格，极细笔画，高雅精致<br>
+      <strong>适合：</strong>高端时尚、美术、编辑出版、摄影<br>
+      <span class="tag tag--style">Serif</span>
+      <span class="tag tag--style">Renaissance</span>
+    </div>
+  </div>
+
+  <!-- J: Poiret One -->
+  <div class="card">
+    <div class="card-number">J — Poiret One</div>
+    <div class="brand-name brand-name-lg" style="font-family:'Poiret One',sans-serif; font-weight:400; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</div>
+    <div class="brand-name brand-name-sm" style="font-family:'Poiret One',sans-serif; font-weight:400; letter-spacing:0.2em; text-transform:uppercase;">Moment4us</div>
+    <div class="nav-demo">
+      <span style="font-family:'Poiret One',sans-serif; font-weight:400; font-size:0.85rem; letter-spacing:0.15em; text-transform:uppercase;">Moment4us</span>
+      <span class="nav-demo-links">Portfolio &nbsp; About &nbsp; Services</span>
+    </div>
+    <div class="font-info">
+      <strong>风格：</strong>装饰艺术几何风格，独特且辨识度高<br>
+      <strong>适合：</strong>创意品牌、艺术、时尚、精品店<br>
+      <span class="tag tag--style">Display</span>
+      <span class="tag tag--style">Art Deco</span>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

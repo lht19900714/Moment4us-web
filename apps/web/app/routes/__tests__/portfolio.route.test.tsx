@@ -44,7 +44,7 @@ test("portfolio route exports SEO meta descriptors", async () => {
 test("portfolio listing loader uses cover images for story cards", async () => {
   const data = await portfolioLoader({ context: {} } as never);
 
-  expect(data.galleryItems[0]?.src).toContain("harbor-vows-cover");
+  expect(data.galleryItems[0]?.src).toContain("unsplash.com");
   expect(data.galleryItems[0]?.alt).toContain("Golden-hour portraits");
 });
 
@@ -55,7 +55,11 @@ test("portfolio project route renders hero, story sequence, and contact CTA", as
   } as never);
   vi.spyOn(ReactRouter, "useLoaderData").mockReturnValue(data);
 
-  const html = renderToString(<PortfolioProjectRoute />);
+  const html = renderToString(
+    <ReactRouter.MemoryRouter>
+      <PortfolioProjectRoute />
+    </ReactRouter.MemoryRouter>,
+  );
 
   expect(html).toContain(data.project.title);
   expect(html).toContain(data.project.summary);
@@ -85,7 +89,7 @@ test("portfolio project loader uses the cover image for the hero and social meta
     params: { slug: "harbor-vows" },
   } as never);
 
-  expect(data.heroImage.src).toContain("harbor-vows-cover");
+  expect(data.heroImage.src).toContain("unsplash.com");
   expect(data.heroImage.alt).toContain(data.project.summary);
   expect(data.editorialImages[0]?.alt).toContain(data.project.story);
 

@@ -119,7 +119,7 @@ test("home loader falls back to featured project fixtures when portfolio data is
   } as never);
 
   expect(data.featuredProjects[0]?.slug).toBe("harbor-vows");
-  expect(data.galleryItems[0]?.src).toContain("harbor-vows-cover");
+  expect(data.galleryItems[0]?.src).toContain("unsplash.com");
   expect(data.galleryItems[0]?.alt).toContain("Golden-hour portraits");
 });
 

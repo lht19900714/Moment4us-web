@@ -234,8 +234,31 @@ function getImageConfig(context?: HomeLoaderContext): CloudflareImageConfig {
   };
 }
 
+function isDemoConfig(config: CloudflareImageConfig): boolean {
+  return config.accountHash === "moment4us-demo";
+}
+
+const demoImageUrls: Record<string, string> = {
+  "harbor-vows-cover": "https://images.unsplash.com/photo-1519741497674-611481863552?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
+  "at-home-newborn-cover": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
+  "studio-portraits-cover": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
+};
+
+function getDemoImageUrl(imageId: string, width: number, height: number): string {
+  const template = demoImageUrls[imageId];
+  if (template === undefined) {
+    return `https://images.unsplash.com/photo-1519741497674-611481863552?w=${width}&h=${height}&fit=crop&q=80`;
+  }
+  return template.replace("%WIDTH%", String(width)).replace("%HEIGHT%", String(height));
+}
+
+function getDemoSrcSet(imageId: string, widths: readonly number[], height: number): string {
+  return widths.map((w) => `${getDemoImageUrl(imageId, w, height)} ${w}w`).join(", ");
+}
+
 function toGalleryItem(project: PortfolioProject, config: CloudflareImageConfig): HomeGalleryItem {
   const dimensions = galleryDimensions[project.slug] ?? { width: 960, height: 1280 };
+  const demo = isDemoConfig(config);
 
   return {
     id: project.slug,
@@ -246,19 +269,23 @@ function toGalleryItem(project: PortfolioProject, config: CloudflareImageConfig)
     alt: `${project.title}: ${project.summary}`,
     width: dimensions.width,
     height: dimensions.height,
-    src: buildCloudflareImageUrl(project.coverImage, config, {
-      width: dimensions.width,
-      height: dimensions.height,
-      fit: "cover",
-      quality: 82,
-      format: "auto",
-    }),
-    srcSet: buildCloudflareImageSrcSet(project.coverImage, config, [400, 640, 960], {
-      height: dimensions.height,
-      fit: "cover",
-      quality: 82,
-      format: "auto",
-    }),
+    src: demo
+      ? getDemoImageUrl(project.coverImage, dimensions.width, dimensions.height)
+      : buildCloudflareImageUrl(project.coverImage, config, {
+          width: dimensions.width,
+          height: dimensions.height,
+          fit: "cover",
+          quality: 82,
+          format: "auto",
+        }),
+    srcSet: demo
+      ? getDemoSrcSet(project.coverImage, [400, 640, 960], dimensions.height)
+      : buildCloudflareImageSrcSet(project.coverImage, config, [400, 640, 960], {
+          height: dimensions.height,
+          fit: "cover",
+          quality: 82,
+          format: "auto",
+        }),
     sizes: "(min-width: 1100px) 30vw, (min-width: 720px) 45vw, 100vw",
   };
 }

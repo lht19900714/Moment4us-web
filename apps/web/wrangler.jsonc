@@ -3,5 +3,31 @@
   "name": "moment4us-web",
   "main": "./workers/app.ts",
   "compatibility_date": "2026-03-26",
-  "compatibility_flags": ["nodejs_compat"]
+  "compatibility_flags": ["nodejs_compat"],
+
+  // Cloudflare D1 SQL database — stores site pages, portfolio projects,
+  // blog posts, leads, and admin users (see migrations/ directory).
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "moment4us-db",
+      "database_id": "<your-d1-database-id>",
+      // Run migrations with:
+      //   wrangler d1 migrations apply moment4us-db --local   (dev)
+      //   wrangler d1 migrations apply moment4us-db --remote  (production)
+      "migrations_dir": "migrations"
+    }
+  ],
+
+  // Public environment variables — safe to commit.
+  "vars": {
+    // Cloudflare Turnstile widget site key (public, embedded in client HTML).
+    "TURNSTILE_SITE_KEY": "<your-turnstile-site-key>"
+  }
+
+  // -------------------------------------------------------------------
+  // Secrets — do NOT put these in this file. Set them via:
+  //   wrangler secret put TURNSTILE_SECRET_KEY
+  //   wrangler secret put STUDIO_EMAIL
+  // -------------------------------------------------------------------
 }
