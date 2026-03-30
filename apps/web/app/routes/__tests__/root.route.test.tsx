@@ -53,6 +53,7 @@ vi.mock("react-router", async () => {
     Outlet: () => <MockOutlet />,
     Scripts: () => <MockScripts />,
     ScrollRestoration: () => <MockScrollRestoration />,
+    useLocation: () => ({ pathname: "/", search: "", hash: "", state: null, key: "default" }),
   };
 });
 

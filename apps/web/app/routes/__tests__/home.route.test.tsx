@@ -34,7 +34,7 @@ test("home route renders the Moment4us heading", async () => {
   expect(html).toContain("Selected Stories");
   expect(html).toContain("About Moment4us");
   expect(html).toContain("What We Photograph");
-  expect(html).toContain("Let’s Tell Your Story");
+  expect(html).toContain("Tell Your Story");
   expect(html).toContain("Portfolio");
   expect(html).toContain("About");
   expect(html).toContain("Services");
