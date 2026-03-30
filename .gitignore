@@ -10,6 +10,7 @@ packages/*/src/**/*.d.ts
 .dev.vars
 !.env.example
 !.env.*.example
+.wrangler/
 
 .ace-tool/
 .agents/
