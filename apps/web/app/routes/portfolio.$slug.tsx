@@ -4,6 +4,8 @@ import { buildSeo, toMetaDescriptors } from "../lib/seo";
 
 import { routes } from "@moment4us/shared";
 
+import { portfolioContent } from "../content/portfolio";
+
 const fallbackSeo = buildSeo({
   title: "Portfolio",
   description: "Selected Moment4us stories.",
@@ -30,7 +32,7 @@ export default function PortfolioProjectRoute() {
     <main className="portfolio-detail">
       {/* Back link */}
       <Link className="portfolio-detail__back" to={routes.portfolio}>
-        &larr; Back to Portfolio
+        {portfolioContent.detail.backLabel}
       </Link>
 
       {/* Full-bleed hero with background image */}
@@ -48,7 +50,7 @@ export default function PortfolioProjectRoute() {
       {/* Story section with centered prose */}
       <section className="portfolio-detail__story">
         <div className="portfolio-detail__story-inner">
-          <p className="portfolio-detail__story-eyebrow">The Story</p>
+          <p className="portfolio-detail__story-eyebrow">{portfolioContent.detail.storyEyebrow}</p>
           <h2 className="portfolio-detail__story-heading">{data.project.title}</h2>
           <p className="portfolio-detail__story-text">{data.project.story}</p>
           <blockquote className="portfolio-detail__pullquote">
@@ -60,7 +62,7 @@ export default function PortfolioProjectRoute() {
       {/* Editorial image gallery with visual rhythm */}
       <section className="portfolio-detail__gallery">
         <div className="portfolio-detail__gallery-inner">
-          <p className="portfolio-detail__gallery-eyebrow">Editorial Sequence</p>
+          <p className="portfolio-detail__gallery-eyebrow">{portfolioContent.detail.galleryEyebrow}</p>
           {data.editorialImages.map((image, index) => {
             const isFullWidth = index === 0 || index % 3 === 0;
             if (isFullWidth) {
@@ -131,14 +133,13 @@ export default function PortfolioProjectRoute() {
         style={{ backgroundImage: `url(${data.heroImage.src})` }}
       >
         <div className="portfolio-detail__cta-inner">
-          <p className="section-eyebrow">Next Step</p>
-          <h2 className="section-heading">Ready to plan your own story?</h2>
+          <p className="section-eyebrow">{portfolioContent.detail.cta.eyebrow}</p>
+          <h2 className="section-heading">{portfolioContent.detail.cta.heading}</h2>
           <p className="section-body">
-            Share your date, location, and what you want these images to feel like. We will design the
-            pacing together.
+            {portfolioContent.detail.cta.body}
           </p>
           <Link className="btn-ghost btn-ghost--filled" to={routes.contact}>
-            Start Your Inquiry
+            {portfolioContent.detail.cta.buttonLabel}
           </Link>
         </div>
       </section>

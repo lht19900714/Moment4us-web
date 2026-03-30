@@ -2,6 +2,7 @@ import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from 
 
 import { routes } from "@moment4us/shared";
 
+import { portfolioContent } from "../content/portfolio";
 import { buildSeo, toMetaDescriptors } from "../lib/seo";
 import { getPortfolioListingFixtureData, type PortfolioListingLoaderData } from "../loaders/portfolio.server";
 
@@ -34,7 +35,7 @@ export default function PortfolioRoute() {
   return (
     <main className="content-page portfolio-page">
       <section className="content-page__hero">
-        <p className="content-page__eyebrow">Portfolio</p>
+        <p className="content-page__eyebrow">{portfolioContent.listingEyebrow}</p>
         <h1>{data.title}</h1>
         <p className="content-page__lede">{data.hero}</p>
       </section>
@@ -42,7 +43,7 @@ export default function PortfolioRoute() {
       {introSection === undefined ? null : (
         <section className="section-dark-alt">
           <div className="section-inner">
-            <p className="section-eyebrow">Curated Collection</p>
+            <p className="section-eyebrow">{portfolioContent.collectionEyebrow}</p>
             <h2 className="section-heading">{introSection.heading}</h2>
             <p className="section-body">{introSection.body}</p>
           </div>
@@ -69,7 +70,7 @@ export default function PortfolioRoute() {
                     <p className="masonry-gallery__category">{item.category}</p>
                     <h3>{item.title}</h3>
                     <p>{item.summary}</p>
-                    <span className="portfolio-page__story-link">View Story</span>
+                    <span className="portfolio-page__story-link">{portfolioContent.viewStoryLabel}</span>
                   </div>
                 </Link>
               </article>

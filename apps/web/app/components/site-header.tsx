@@ -3,10 +3,12 @@ import { Link } from "react-router";
 
 import { routes, siteName } from "@moment4us/shared";
 
+import { navigation } from "../content/site";
+
 const primaryNavItems = [
-  { href: routes.portfolio, label: "Portfolio" },
-  { href: routes.about, label: "About" },
-  { href: routes.services, label: "Services" },
+  { href: routes.portfolio, label: navigation.primaryLinks[0].label },
+  { href: routes.about, label: navigation.primaryLinks[1].label },
+  { href: routes.services, label: navigation.primaryLinks[2].label },
 ] as const;
 
 export function SiteHeader() {
@@ -39,7 +41,7 @@ export function SiteHeader() {
             ))}
             <li>
               <Link className="nav-cta" to={routes.contact}>
-                Inquire
+                {navigation.ctaLabel}
               </Link>
             </li>
           </ul>
@@ -102,7 +104,7 @@ export function SiteHeader() {
               onClick={closeMenu}
               to={routes.home}
             >
-              Home
+              {navigation.mobileHomeLabel}
             </Link>
           </li>
           {primaryNavItems.map((item) => (
@@ -123,7 +125,7 @@ export function SiteHeader() {
           onClick={closeMenu}
           to={routes.contact}
         >
-          Inquire
+          {navigation.ctaLabel}
         </Link>
       </div>
     </nav>

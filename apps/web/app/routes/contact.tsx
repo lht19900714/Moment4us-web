@@ -1,6 +1,7 @@
 import { useFetcher, useLoaderData, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
 import { handleContactAction, type ContactActionResult } from "../actions/contact.server";
+import { contactContent } from "../content/contact";
 
 import { contactPageFixture } from "../loaders/fixtures";
 
@@ -14,16 +15,7 @@ interface ContactLoaderData {
   turnstileSiteKey: string;
 }
 
-const SERVICE_OPTIONS = [
-  { value: "", label: "Select a service..." },
-  { value: "Wedding", label: "Wedding" },
-  { value: "Family", label: "Family" },
-  { value: "Maternity", label: "Maternity" },
-  { value: "Newborn", label: "Newborn" },
-  { value: "Portrait", label: "Portrait" },
-  { value: "Branding", label: "Branding" },
-  { value: "Other", label: "Other" },
-];
+const SERVICE_OPTIONS = contactContent.serviceOptions;
 
 export async function loader({ context }: LoaderFunctionArgs) {
   const siteKey = (context as Record<string, unknown> | undefined)?.cloudflare
@@ -61,7 +53,7 @@ export default function ContactRoute() {
   return (
     <main className="content-page">
       <section className="content-page__hero">
-        <p className="content-page__eyebrow">Contact</p>
+        <p className="content-page__eyebrow">{contactContent.eyebrow}</p>
         <h1>{data.title}</h1>
         <p className="content-page__lede">{data.hero}</p>
       </section>
@@ -70,18 +62,16 @@ export default function ContactRoute() {
         <div className="section-inner">
           {isSuccess ? (
             <div className="contact-form__success" role="status">
-              <h2>Thank you for your inquiry</h2>
+              <h2>{contactContent.successHeading}</h2>
               <p>
-                We received your message and will be in touch soon. We typically respond within one
-                to two business days.
+                {contactContent.successBody}
               </p>
             </div>
           ) : (
             <fetcher.Form className="contact-form" method="post">
-              <h2>Start the conversation</h2>
+              <h2>{contactContent.formHeading}</h2>
               <p className="contact-form__intro">
-                Share the details of your session, celebration, or family season and we will shape
-                the next step from there.
+                {contactContent.formIntro}
               </p>
 
               {serverError && (
@@ -221,7 +211,7 @@ export default function ContactRoute() {
                 disabled={isSubmitting}
                 type="submit"
               >
-                {isSubmitting ? "Sending..." : "Send Inquiry"}
+                {isSubmitting ? contactContent.submittingLabel : contactContent.submitLabel}
               </button>
             </fetcher.Form>
           )}

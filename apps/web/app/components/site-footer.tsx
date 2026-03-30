@@ -2,13 +2,15 @@ import { Link } from "react-router";
 
 import { routes, siteName } from "@moment4us/shared";
 
-const copyrightLabel = "\u00A9 2026";
+import { navigation } from "../content/site";
+
+const copyrightLabel = "\u00A9 " + navigation.copyrightYear;
 
 const footerLinks = [
-  { href: routes.portfolio, label: "Portfolio" },
-  { href: routes.about, label: "About" },
-  { href: routes.services, label: "Services" },
-  { href: routes.contact, label: "Contact" },
+  { href: routes.portfolio, label: navigation.footerLinks[0].label },
+  { href: routes.about, label: navigation.footerLinks[1].label },
+  { href: routes.services, label: navigation.footerLinks[2].label },
+  { href: routes.contact, label: navigation.footerLinks[3].label },
 ] as const;
 
 export function SiteFooter() {
@@ -28,7 +30,7 @@ export function SiteFooter() {
           </ul>
         </nav>
         <p className="site-footer__copy">
-          {copyrightLabel} {siteName}. All rights reserved.
+          {copyrightLabel} {siteName}{navigation.copyrightSuffix}
         </p>
       </div>
     </footer>
