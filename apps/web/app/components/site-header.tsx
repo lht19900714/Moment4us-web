@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router";
 
-import { routes, siteName } from "../../../../packages/shared/src";
+import { routes, siteName } from "@moment4us/shared";
 
 const primaryNavItems = [
   { href: routes.portfolio, label: "Portfolio" },

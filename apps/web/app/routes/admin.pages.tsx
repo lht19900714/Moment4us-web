@@ -7,8 +7,8 @@ import {
 } from "react-router";
 import { useState } from "react";
 
-import { parseSitePage } from "../../../../packages/content/src";
-import { createSitePagesRepository, type D1DatabaseLike } from "../../../../packages/data/src";
+import { parseSitePage } from "@moment4us/content";
+import { createSitePagesRepository, type D1DatabaseLike } from "@moment4us/data";
 
 interface CloudflareContext {
   cloudflare?: {

@@ -16,7 +16,6 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@moment4us/ui": ["packages/ui/src/index.ts"],
       "@moment4us/content": ["packages/content/src/index.ts"],
       "@moment4us/data": ["packages/data/src/index.ts"],
       "@moment4us/shared": ["packages/shared/src/index.ts"]

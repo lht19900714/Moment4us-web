@@ -1,7 +1,7 @@
 import { redirect, useFetcher, type ActionFunctionArgs, type MetaFunction } from "react-router";
 
-import { parsePortfolioProject } from "../../../../packages/content/src";
-import { createPortfolioProjectsRepository, type D1DatabaseLike } from "../../../../packages/data/src";
+import { parsePortfolioProject } from "@moment4us/content";
+import { createPortfolioProjectsRepository, type D1DatabaseLike } from "@moment4us/data";
 
 interface CloudflareContext {
   cloudflare?: {

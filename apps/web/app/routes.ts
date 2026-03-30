@@ -1,6 +1,6 @@
 import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
-import { routes } from "../../../packages/shared/src";
+import { routes } from "@moment4us/shared";
 
 function childPath(pathname: string): string {
   return pathname.replace(/^\//, "");

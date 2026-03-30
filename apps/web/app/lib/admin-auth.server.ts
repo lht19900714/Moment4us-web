@@ -1,4 +1,4 @@
-import type { D1DatabaseLike } from "../../../../packages/data/src";
+import type { D1DatabaseLike } from "@moment4us/data";
 
 const SESSION_COOKIE_NAME = "admin_session";
 const SESSION_TOKEN_LENGTH = 32;

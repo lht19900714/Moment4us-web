@@ -5,7 +5,7 @@ import { MasonryGallery } from "../components/masonry-gallery";
 import { toMetaDescriptors } from "../lib/seo";
 import { loadHomePage } from "../loaders/home.server";
 
-import { routes } from "../../../../packages/shared/src";
+import { routes } from "@moment4us/shared";
 
 export async function loader({ context }: LoaderFunctionArgs) {
   return loadHomePage(context);

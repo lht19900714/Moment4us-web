@@ -1,36 +1,9 @@
 import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import { buildSeo, toMetaDescriptors, type BuiltSeo } from "../lib/seo";
+import { routes } from "@moment4us/shared";
 
-import { routes } from "../../../../packages/shared/src";
-
-interface PortfolioSection {
-  id: string;
-  heading: string;
-  body: string;
-}
-
-interface PortfolioGalleryItem {
-  id: string;
-  href: string;
-  title: string;
-  category: string;
-  summary: string;
-  alt: string;
-  width: number;
-  height: number;
-  src: string;
-  srcSet: string;
-  sizes: string;
-}
-
-interface PortfolioRouteLoaderData {
-  title: string;
-  hero: string;
-  sections: PortfolioSection[];
-  galleryItems: PortfolioGalleryItem[];
-  seo: BuiltSeo;
-}
+import { buildSeo, toMetaDescriptors } from "../lib/seo";
+import { getPortfolioListingFixtureData, type PortfolioListingLoaderData } from "../loaders/portfolio.server";
 
 const fallbackSeo = buildSeo({
   title: "Portfolio",
@@ -40,40 +13,11 @@ const fallbackSeo = buildSeo({
   keywords: ["portfolio photography", "wedding gallery", "family photography stories"],
 });
 
-const listingFixtureData: PortfolioRouteLoaderData = {
-  title: "Portfolio",
-  hero: "Selected stories shaped with editorial polish, documentary warmth, and space for real moments to unfold.",
-  sections: [
-    {
-      id: "selected-stories",
-      heading: "Selected Stories",
-      body: "Each gallery is paced like a narrative, balancing atmosphere, portrait direction, and unplanned connection.",
-    },
-  ],
-  galleryItems: [
-    {
-      id: "harbor-vows",
-      href: "/portfolio/harbor-vows",
-      title: "Harbor Vows",
-      category: "Wedding",
-      summary: "Golden-hour portraits and a candlelit dinner by the water.",
-      alt: "Harbor Vows: Golden-hour portraits and a candlelit dinner by the water.",
-      width: 960,
-      height: 1280,
-      src: "https://imagedelivery.net/moment4us-demo/harbor-vows-cover/public/width=960,height=1280,fit=cover",
-      srcSet:
-        "https://imagedelivery.net/moment4us-demo/harbor-vows-cover/public/width=400,height=1280,fit=cover 400w, https://imagedelivery.net/moment4us-demo/harbor-vows-cover/public/width=640,height=1280,fit=cover 640w, https://imagedelivery.net/moment4us-demo/harbor-vows-cover/public/width=960,height=1280,fit=cover 960w",
-      sizes: "(min-width: 1100px) 30vw, (min-width: 720px) 45vw, 100vw",
-    },
-  ],
-  seo: fallbackSeo,
-};
-
-export function loader(): PortfolioRouteLoaderData;
-export function loader(args: LoaderFunctionArgs): PortfolioRouteLoaderData | Promise<PortfolioRouteLoaderData>;
+export function loader(): PortfolioListingLoaderData;
+export function loader(args: LoaderFunctionArgs): PortfolioListingLoaderData | Promise<PortfolioListingLoaderData>;
 export function loader(args?: LoaderFunctionArgs) {
   if (args === undefined) {
-    return listingFixtureData;
+    return getPortfolioListingFixtureData();
   }
 
   return import("../loaders/portfolio.server").then(({ loadPortfolioListing }) =>

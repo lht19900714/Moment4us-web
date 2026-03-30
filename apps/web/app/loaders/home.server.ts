@@ -1,33 +1,22 @@
 import {
   parseHomepageSections,
-  parsePortfolioProject,
-  parseSitePage,
   type HomepageSectionId,
   type PortfolioProject,
   type SitePage,
   type SitePageSection,
-} from "../../../../packages/content/src";
+} from "@moment4us/content";
 import {
-  buildCloudflareImageSrcSet,
-  buildCloudflareImageUrl,
   createPortfolioProjectsRepository,
   createSitePagesRepository,
   type CloudflareImageConfig,
-  type D1DatabaseLike,
-} from "../../../../packages/data/src";
-import { routes, siteDescription, siteName, type SeoMetadata } from "../../../../packages/shared/src";
+} from "@moment4us/data";
+import { routes, siteName, type SeoMetadata } from "@moment4us/shared";
 
+import { homepageFixture, portfolioProjectsFixture } from "./fixtures";
+
+import type { CloudflareContext } from "../lib/cloudflare-env";
 import { buildSeo, type BuiltSeo } from "../lib/seo";
-
-interface HomeLoaderContext {
-  cloudflare?: {
-    env?: {
-      DB?: D1DatabaseLike;
-      CLOUDFLARE_IMAGES_ACCOUNT_HASH?: string;
-      CLOUDFLARE_IMAGES_VARIANT?: string;
-    };
-  };
-}
+import { getImageConfig, buildImageSrc, buildImageSrcSet } from "./image-helpers";
 
 export interface HomeGalleryItem {
   id: string;
@@ -51,108 +40,7 @@ export interface HomeLoaderData {
   sections: Record<HomepageSectionId, SitePageSection>;
 }
 
-const homepageFixture = parseSitePage({
-  slug: "home",
-  title: siteName,
-  seoTitle: `${siteName} | Photography Studio`,
-  seoDescription: siteDescription,
-  hero: siteDescription,
-  sections: [
-    {
-      id: "hero",
-      heading: "Warm, authentic photography",
-      body: "For weddings, families, and portrait sessions that should feel calm in the moment and honest for years after.",
-    },
-    {
-      id: "featured-portfolio",
-      heading: "Selected Stories",
-      body: "A small preview of recent celebrations, everyday family seasons, and portraits shaped around real connection.",
-    },
-    {
-      id: "about-preview",
-      heading: "About Moment4us",
-      body: "Moment4us blends gentle direction with room for real emotion, so the gallery reflects how the day actually felt instead of forcing it into poses.",
-    },
-    {
-      id: "services-snapshot",
-      heading: "What We Photograph",
-      body: "Wedding days, elopements, family sessions, maternity stories, newborn seasons, portraits, and custom editorial-style coverage.",
-    },
-    {
-      id: "experience-process",
-      heading: "A calm process from inquiry to gallery",
-      body: "Simple planning, honest communication, and thoughtful pacing help every session stay grounded from the first note through final delivery.",
-    },
-    {
-      id: "trust-signals",
-      heading: "Why clients trust the experience",
-      body: "Clear guidance, adaptable coverage, and photographs that stay warm and true without feeling over-directed.",
-    },
-    {
-      id: "inquiry-cta",
-      heading: "Let’s Tell Your Story",
-      body: "Share the date, place, and feeling you want to hold onto, and we can shape a session that fits naturally around it.",
-    },
-  ],
-  published: true,
-  seo: {
-    title: `${siteName} | Photography Studio`,
-    description: siteDescription,
-    canonicalPath: routes.home,
-    keywords: ["wedding photographer", "family photography", "portrait photography"],
-  },
-});
-
-const featuredProjectsFixture = [
-  parsePortfolioProject({
-    slug: "harbor-vows",
-    title: "Harbor Vows",
-    category: "Wedding",
-    coverImage: "harbor-vows-cover",
-    galleryImages: ["harbor-vows-1", "harbor-vows-2"],
-    summary: "Golden-hour portraits and a candlelit dinner by the water.",
-    story: "A relaxed celebration that stayed centered on people, movement, and the shoreline light.",
-    featured: true,
-    publishedAt: "2026-03-24",
-    seo: {
-      title: "Harbor Vows",
-      description: "A waterfront wedding story from Moment4us.",
-      canonicalPath: `${routes.portfolio}/harbor-vows`,
-    },
-  }),
-  parsePortfolioProject({
-    slug: "at-home-newborn",
-    title: "At-Home Newborn",
-    category: "Family",
-    coverImage: "at-home-newborn-cover",
-    galleryImages: ["at-home-newborn-1", "at-home-newborn-2"],
-    summary: "A quiet morning documenting the first week at home.",
-    story: "Textures, routines, and small details shaped a gallery that felt gentle instead of staged.",
-    featured: true,
-    publishedAt: "2026-03-18",
-    seo: {
-      title: "At-Home Newborn",
-      description: "A documentary newborn session from Moment4us.",
-      canonicalPath: `${routes.portfolio}/at-home-newborn`,
-    },
-  }),
-  parsePortfolioProject({
-    slug: "studio-portraits",
-    title: "Studio Portraits",
-    category: "Portrait",
-    coverImage: "studio-portraits-cover",
-    galleryImages: ["studio-portraits-1", "studio-portraits-2"],
-    summary: "Editorial-inspired portraits with soft light and direct connection.",
-    story: "A focused portrait session with space for movement, styling changes, and simple prompts.",
-    featured: true,
-    publishedAt: "2026-03-10",
-    seo: {
-      title: "Studio Portraits",
-      description: "A portrait story from the Moment4us studio.",
-      canonicalPath: `${routes.portfolio}/studio-portraits`,
-    },
-  }),
-];
+const homeFeaturedFixture = portfolioProjectsFixture.slice(0, 3);
 
 const galleryDimensions: Record<string, { width: number; height: number }> = {
   "harbor-vows": { width: 960, height: 1280 },
@@ -160,7 +48,7 @@ const galleryDimensions: Record<string, { width: number; height: number }> = {
   "studio-portraits": { width: 960, height: 1440 },
 };
 
-export async function loadHomePage(context?: HomeLoaderContext): Promise<HomeLoaderData> {
+export async function loadHomePage(context?: CloudflareContext): Promise<HomeLoaderData> {
   const page = await loadHomepagePage(context);
   const featuredProjects = await loadFeaturedProjects(context);
   const imageConfig = getImageConfig(context);
@@ -192,7 +80,7 @@ export async function loadHomePage(context?: HomeLoaderContext): Promise<HomeLoa
   };
 }
 
-async function loadHomepagePage(context?: HomeLoaderContext): Promise<SitePage> {
+async function loadHomepagePage(context?: CloudflareContext): Promise<SitePage> {
   const database = context?.cloudflare?.env?.DB;
 
   if (database === undefined) {
@@ -212,53 +100,23 @@ async function loadHomepagePage(context?: HomeLoaderContext): Promise<SitePage> 
   }
 }
 
-async function loadFeaturedProjects(context?: HomeLoaderContext): Promise<PortfolioProject[]> {
+async function loadFeaturedProjects(context?: CloudflareContext): Promise<PortfolioProject[]> {
   const database = context?.cloudflare?.env?.DB;
 
   if (database === undefined) {
-    return featuredProjectsFixture;
+    return homeFeaturedFixture;
   }
 
   try {
     const projects = await createPortfolioProjectsRepository(database).listFeaturedProjects(3);
-    return projects.length > 0 ? projects : featuredProjectsFixture;
+    return projects.length > 0 ? projects : homeFeaturedFixture;
   } catch {
-    return featuredProjectsFixture;
+    return homeFeaturedFixture;
   }
-}
-
-function getImageConfig(context?: HomeLoaderContext): CloudflareImageConfig {
-  return {
-    accountHash: context?.cloudflare?.env?.CLOUDFLARE_IMAGES_ACCOUNT_HASH ?? "moment4us-demo",
-    variant: context?.cloudflare?.env?.CLOUDFLARE_IMAGES_VARIANT ?? "public",
-  };
-}
-
-function isDemoConfig(config: CloudflareImageConfig): boolean {
-  return config.accountHash === "moment4us-demo";
-}
-
-const demoImageUrls: Record<string, string> = {
-  "harbor-vows-cover": "https://images.unsplash.com/photo-1519741497674-611481863552?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
-  "at-home-newborn-cover": "https://images.unsplash.com/photo-1609220136736-443140cffec6?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
-  "studio-portraits-cover": "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=%WIDTH%&h=%HEIGHT%&fit=crop&q=80",
-};
-
-function getDemoImageUrl(imageId: string, width: number, height: number): string {
-  const template = demoImageUrls[imageId];
-  if (template === undefined) {
-    return `https://images.unsplash.com/photo-1519741497674-611481863552?w=${width}&h=${height}&fit=crop&q=80`;
-  }
-  return template.replace("%WIDTH%", String(width)).replace("%HEIGHT%", String(height));
-}
-
-function getDemoSrcSet(imageId: string, widths: readonly number[], height: number): string {
-  return widths.map((w) => `${getDemoImageUrl(imageId, w, height)} ${w}w`).join(", ");
 }
 
 function toGalleryItem(project: PortfolioProject, config: CloudflareImageConfig): HomeGalleryItem {
   const dimensions = galleryDimensions[project.slug] ?? { width: 960, height: 1280 };
-  const demo = isDemoConfig(config);
 
   return {
     id: project.slug,
@@ -269,23 +127,8 @@ function toGalleryItem(project: PortfolioProject, config: CloudflareImageConfig)
     alt: `${project.title}: ${project.summary}`,
     width: dimensions.width,
     height: dimensions.height,
-    src: demo
-      ? getDemoImageUrl(project.coverImage, dimensions.width, dimensions.height)
-      : buildCloudflareImageUrl(project.coverImage, config, {
-          width: dimensions.width,
-          height: dimensions.height,
-          fit: "cover",
-          quality: 82,
-          format: "auto",
-        }),
-    srcSet: demo
-      ? getDemoSrcSet(project.coverImage, [400, 640, 960], dimensions.height)
-      : buildCloudflareImageSrcSet(project.coverImage, config, [400, 640, 960], {
-          height: dimensions.height,
-          fit: "cover",
-          quality: 82,
-          format: "auto",
-        }),
+    src: buildImageSrc(project.coverImage, config, dimensions, 82),
+    srcSet: buildImageSrcSet(project.coverImage, config, [400, 640, 960], dimensions.height, 82),
     sizes: "(min-width: 1100px) 30vw, (min-width: 720px) 45vw, 100vw",
   };
 }
@@ -320,7 +163,7 @@ function hasApprovedHomepageLayout(sections: SitePageSection[]): boolean {
 function createFallbackSeoMetadata(): SeoMetadata {
   return {
     title: `${siteName} | Photography Studio`,
-    description: siteDescription,
+    description: homepageFixture.seoDescription,
     canonicalPath: routes.home,
   };
 }

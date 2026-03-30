@@ -4,16 +4,9 @@ import {
   createLeadsRepository,
   createPortfolioProjectsRepository,
   createSitePagesRepository,
-  type D1DatabaseLike,
-} from "../../../../packages/data/src";
+} from "@moment4us/data";
 
-interface CloudflareContext {
-  cloudflare?: {
-    env?: {
-      DB?: D1DatabaseLike;
-    };
-  };
-}
+import type { CloudflareContext } from "../lib/cloudflare-env";
 
 interface DashboardData {
   totalLeads: number;

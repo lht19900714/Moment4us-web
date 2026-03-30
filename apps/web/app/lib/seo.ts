@@ -1,6 +1,6 @@
 import type { MetaDescriptor } from "react-router";
 
-import { siteDescription, siteLocale, siteName } from "../../../../packages/shared/src";
+import { siteDescription, siteLocale, siteName } from "@moment4us/shared";
 
 const defaultSiteUrl = "https://moment4us.com";
 const defaultSocialImage = `${defaultSiteUrl}/og/default.jpg`;

@@ -1,40 +1,30 @@
-import { createLeadsRepository, type CreateLeadInput, type D1DatabaseLike } from "../../../../packages/data/src";
+import { createLeadsRepository, type CreateLeadInput } from "@moment4us/data";
 
+import type { CloudflareContext } from "../lib/cloudflare-env";
 import { formatLeadNotificationText } from "../lib/email.server";
 import { verifyTurnstileToken } from "../lib/turnstile.server";
 
-interface ContactActionContext {
-  cloudflare?: {
-    env?: {
-      DB?: D1DatabaseLike;
-      TURNSTILE_SECRET_KEY?: string;
-      STUDIO_EMAIL?: string;
-    };
-    ctx?: { waitUntil(p: Promise<unknown>): void };
-  };
-}
-
-interface ContactActionSuccess {
+export interface ContactActionSuccess {
   ok: true;
 }
 
-interface ContactActionValidationError {
+export interface ContactActionValidationError {
   ok: false;
   errors: Record<string, string>;
 }
 
-interface ContactActionServerError {
+export interface ContactActionServerError {
   ok: false;
   error: string;
 }
 
-type ContactActionResult = ContactActionSuccess | ContactActionValidationError | ContactActionServerError;
+export type ContactActionResult = ContactActionSuccess | ContactActionValidationError | ContactActionServerError;
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function handleContactAction(
   request: Request,
-  context?: ContactActionContext,
+  context?: CloudflareContext,
 ): Promise<ContactActionResult> {
   let formData: FormData;
 

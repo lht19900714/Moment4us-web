@@ -2,7 +2,7 @@ import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from 
 
 import { buildSeo, toMetaDescriptors } from "../lib/seo";
 
-import { routes } from "../../../../packages/shared/src";
+import { routes } from "@moment4us/shared";
 
 const fallbackSeo = buildSeo({
   title: "Portfolio",

@@ -1,6 +1,6 @@
 import { Link } from "react-router";
 
-import { routes, siteName } from "../../../../packages/shared/src";
+import { routes, siteName } from "@moment4us/shared";
 
 const copyrightLabel = "\u00A9 2026";
 

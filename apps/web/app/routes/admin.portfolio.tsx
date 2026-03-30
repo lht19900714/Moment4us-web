@@ -1,6 +1,6 @@
 import { Link, useLoaderData, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import { createPortfolioProjectsRepository, type D1DatabaseLike } from "../../../../packages/data/src";
+import { createPortfolioProjectsRepository, type D1DatabaseLike } from "@moment4us/data";
 
 interface CloudflareContext {
   cloudflare?: {

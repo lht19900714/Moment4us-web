@@ -3,7 +3,7 @@ import { Link, type MetaFunction } from "react-router";
 import { HeroSection } from "../components/hero-section";
 import { buildSeo, toMetaDescriptors } from "../lib/seo";
 
-import { routes } from "../../../../packages/shared/src";
+import { routes } from "@moment4us/shared";
 
 const seo = buildSeo({
   title: "Services | Moment4us Photography",

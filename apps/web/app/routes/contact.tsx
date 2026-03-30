@@ -1,10 +1,10 @@
 import { useFetcher, useLoaderData, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import { handleContactAction } from "../actions/contact.server";
+import { handleContactAction, type ContactActionResult } from "../actions/contact.server";
 
-import { getPublicSitePageFixture } from "./site-page-fixtures";
+import { contactPageFixture } from "../loaders/fixtures";
 
-const contactPage = getPublicSitePageFixture("contact");
+const contactPage = contactPageFixture;
 
 interface ContactLoaderData {
   title: string;
@@ -13,22 +13,6 @@ interface ContactLoaderData {
   hero: string;
   turnstileSiteKey: string;
 }
-
-interface ContactActionSuccess {
-  ok: true;
-}
-
-interface ContactActionValidationError {
-  ok: false;
-  errors: Record<string, string>;
-}
-
-interface ContactActionServerError {
-  ok: false;
-  error: string;
-}
-
-type ContactActionResult = ContactActionSuccess | ContactActionValidationError | ContactActionServerError;
 
 const SERVICE_OPTIONS = [
   { value: "", label: "Select a service..." },

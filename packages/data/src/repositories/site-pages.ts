@@ -2,6 +2,7 @@ import { parseSitePage, type SitePage } from "@moment4us/content";
 import { parseSlugSegment, siteDescription, siteName } from "@moment4us/shared";
 
 import { ensureD1Client, type D1Client, type D1DatabaseLike } from "../d1/client.js";
+import { parseJsonField } from "../d1/parse-json.js";
 
 const SELECT_PAGE_BY_SLUG_SQL = `
   SELECT slug, title, seo_title, seo_description, hero, sections_json, published, seo_json
@@ -125,18 +126,6 @@ function mapSitePageRow(row: SitePageRow): SitePage {
   });
 }
 
-function parseJsonField<T>(value: string, fieldName: string): T {
-  try {
-    return JSON.parse(value) as T;
-  } catch (error) {
-    throw new Error(
-      `${fieldName} must contain valid JSON: ${
-        error instanceof Error ? error.message : String(error)
-      }`,
-    );
-  }
-}
-
 function createHomepageSeed(): SitePage {
   return parseSitePage({
     slug: "home",
@@ -146,14 +135,39 @@ function createHomepageSeed(): SitePage {
     hero: siteDescription,
     sections: [
       {
+        id: "hero",
+        heading: "Warm, authentic photography",
+        body: "For weddings, families, and portrait sessions that should feel calm in the moment and honest for years after.",
+      },
+      {
         id: "featured-portfolio",
-        heading: "Featured stories",
-        body: "A preview of the wedding, family, and portrait stories we document.",
+        heading: "Selected Stories",
+        body: "A small preview of recent celebrations, everyday family seasons, and portraits shaped around real connection.",
+      },
+      {
+        id: "about-preview",
+        heading: "About Moment4us",
+        body: "Moment4us blends gentle direction with room for real emotion, so the gallery reflects how the day actually felt instead of forcing it into poses.",
       },
       {
         id: "services-snapshot",
-        heading: "Thoughtful coverage",
-        body: "Photography sessions shaped around calm pacing, clear guidance, and real moments.",
+        heading: "What We Photograph",
+        body: "Wedding days, elopements, family sessions, maternity stories, newborn seasons, portraits, and custom editorial-style coverage.",
+      },
+      {
+        id: "experience-process",
+        heading: "A calm process from inquiry to gallery",
+        body: "Simple planning, honest communication, and thoughtful pacing help every session stay grounded from the first note through final delivery.",
+      },
+      {
+        id: "trust-signals",
+        heading: "Why clients trust the experience",
+        body: "Clear guidance, adaptable coverage, and photographs that stay warm and true without feeling over-directed.",
+      },
+      {
+        id: "inquiry-cta",
+        heading: "Let's Tell Your Story",
+        body: "Share the date, place, and feeling you want to hold onto, and we can shape a session that fits naturally around it.",
       },
     ],
     published: true,
@@ -161,6 +175,7 @@ function createHomepageSeed(): SitePage {
       title: `${siteName} | Photography Studio`,
       description: siteDescription,
       canonicalPath: "/",
+      keywords: ["wedding photographer", "family photography", "portrait photography"],
     },
   });
 }

@@ -12,5 +12,5 @@ test("getPageBySlug returns homepage content", async () => {
   const page = await repo.getPageBySlug("home");
 
   expect(page?.slug).toBe("home");
-  expect(page?.sections[0]?.id).toBe("featured-portfolio");
+  expect(page?.sections[0]?.id).toBe("hero");
 });

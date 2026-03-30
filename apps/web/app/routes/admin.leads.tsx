@@ -1,8 +1,8 @@
 import { useFetcher, useLoaderData, type ActionFunctionArgs, type LoaderFunctionArgs, type MetaFunction } from "react-router";
 
-import { type LeadStatus } from "../../../../packages/content/src";
-import { leadStatuses } from "../../../../packages/shared/src";
-import { createLeadsRepository, type D1DatabaseLike } from "../../../../packages/data/src";
+import { type LeadStatus } from "@moment4us/content";
+import { leadStatuses } from "@moment4us/shared";
+import { createLeadsRepository, type D1DatabaseLike } from "@moment4us/data";
 
 interface CloudflareContext {
   cloudflare?: {

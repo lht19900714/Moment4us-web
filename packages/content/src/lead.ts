@@ -4,6 +4,7 @@ import {
   parseISODateString,
   type ISODateString,
 } from "@moment4us/shared";
+import { parseEmail, parseRecord, parseString } from "./parsers.js";
 
 export type LeadStatus = (typeof leadStatuses)[number];
 export type LeadType = (typeof leadTypes)[number];
@@ -62,31 +63,4 @@ export function isLeadType(input: string): input is LeadType {
 
 export function isLeadStatus(input: string): input is LeadStatus {
   return (leadStatuses as readonly string[]).includes(input);
-}
-
-function parseRecord(input: unknown, fieldName: string): Record<string, unknown> {
-  if (typeof input !== "object" || input === null || Array.isArray(input)) {
-    throw new Error(`${fieldName} must be an object`);
-  }
-
-  return input as Record<string, unknown>;
-}
-
-function parseString(input: unknown, fieldName: string): string {
-  if (typeof input !== "string" || input.trim().length === 0) {
-    throw new Error(`${fieldName} must be a non-empty string`);
-  }
-
-  return input;
-}
-
-function parseEmail(input: unknown, fieldName: string): string {
-  const value = parseString(input, fieldName);
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  if (!emailPattern.test(value)) {
-    throw new Error(`${fieldName} must be a valid email`);
-  }
-
-  return value;
 }

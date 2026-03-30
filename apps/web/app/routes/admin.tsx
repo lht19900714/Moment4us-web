@@ -1,15 +1,7 @@
 import { Link, NavLink, Outlet, type LoaderFunctionArgs } from "react-router";
 
 import { requireAdmin } from "../lib/admin-auth.server";
-
-interface CloudflareContext {
-  cloudflare?: {
-    env?: {
-      DB?: unknown;
-      ADMIN_PASSWORD_HASH?: string;
-    };
-  };
-}
+import type { CloudflareContext } from "../lib/cloudflare-env";
 
 export async function loader({ request, context }: LoaderFunctionArgs) {
   const cfContext = context as CloudflareContext;
