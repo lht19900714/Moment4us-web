@@ -8,7 +8,7 @@
 
 <!-- @@@auto:current-status -->
 - **Active File**: `journal-1.md`
-- **Total Sessions**: 7
+- **Total Sessions**: 8
 - **Last Active**: 2026-03-30
 <!-- @@@/auto:current-status -->
 
@@ -19,7 +19,7 @@
 <!-- @@@auto:active-documents -->
 | File | Lines | Status |
 |------|-------|--------|
-| `journal-1.md` | ~488 | Active |
+| `journal-1.md` | ~545 | Active |
 <!-- @@@/auto:active-documents -->
 
 ---
@@ -29,6 +29,7 @@
 <!-- @@@auto:session-history -->
 | # | Date | Title | Commits |
 |---|------|-------|---------|
+| 8 | 2026-03-30 | Centralize website content into static content files | `11c8602` |
 | 7 | 2026-03-30 | Refactor: eliminate code redundancy and consolidate project | `362e9d4` |
 | 6 | 2026-03-27 | Production deployment, bug fixes, Turnstile & email config | `a98cd17`, `a05d337`, `7a7f657` |
 | 5 | 2026-03-27 | About, Services, Admin panel, R2 integration | `a98cd17` |

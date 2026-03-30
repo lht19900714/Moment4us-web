@@ -486,3 +486,60 @@ Full codebase redundancy analysis and refactoring. Identified 15 issues, fixed a
 ### Next Steps
 
 - None - task complete
+
+
+## Session 8: Centralize website content into static content files
+
+**Date**: 2026-03-30
+**Task**: Centralize website content into static content files
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## Summary
+
+Created a centralized content management structure using static TypeScript files. All hardcoded text, images, prices, and SEO metadata extracted from route/component files into `apps/web/app/content/`.
+
+## Content Files Created
+
+| File | Content |
+|------|---------|
+| `content/site.ts` | Navigation labels, hero image URLs, copyright info |
+| `content/home.ts` | Hero eyebrow/CTAs, process steps, trust signals, quote, CTA |
+| `content/about.ts` | SEO, story paragraphs, values, working style, quote, CTA |
+| `content/services.ts` | 6 service items with includes, 3 process steps, pricing ($350/$2,800), investment quote, CTA |
+| `content/contact.ts` | Form labels, service dropdown options, success/error messages |
+| `content/portfolio.ts` | Listing/detail page labels, back link, CTA |
+
+## Route/Component Files Updated (8)
+
+- `routes/home.tsx` — hero, bullets, process steps, trust signals, quote, CTA
+- `routes/about.tsx` — full page rewrite to use content references
+- `routes/services.tsx` — removed local data arrays, all from content
+- `routes/contact.tsx` — form labels, dropdown options, messages
+- `routes/portfolio.tsx` — eyebrows, view story label
+- `routes/portfolio.$slug.tsx` — back label, story/gallery eyebrows, CTA
+- `components/site-header.tsx` — nav labels, CTA label, mobile home label
+- `components/site-footer.tsx` — footer links, copyright year/suffix
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `11c8602` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
