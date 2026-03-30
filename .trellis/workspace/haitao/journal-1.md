@@ -417,3 +417,72 @@ Deployed the Moment4us website to Cloudflare Workers production, fixed multiple 
 ### Next Steps
 
 - None - task complete
+
+
+## Session 7: Refactor: eliminate code redundancy and consolidate project
+
+**Date**: 2026-03-30
+**Task**: Refactor: eliminate code redundancy and consolidate project
+
+### Summary
+
+(Add summary)
+
+### Main Changes
+
+## Summary
+
+Full codebase redundancy analysis and refactoring. Identified 15 issues, fixed all critical and medium items.
+
+## Changes
+
+| Category | Action | Files |
+|----------|--------|-------|
+| Parser helpers | Extract 5 duplicated functions → `parsers.ts` | `packages/content/src/` (5 files) |
+| JSON parser | Extract `parseJsonField` → `parse-json.ts` | `packages/data/src/` (4 files) |
+| Image utilities | Extract 5 duplicated functions → `image-helpers.ts` | `apps/web/app/loaders/` (3 files) |
+| Context types | Unify `CloudflareContext` → `cloudflare-env.ts` | `apps/web/app/` (6 files) |
+| Action result type | Export `ContactActionResult` from server | `contact.server.ts`, `contact.tsx` |
+| Fixture data | Consolidate all fixtures → `fixtures.ts` | `loaders/`, `routes/` (5 files) |
+| DB seed | Fix `createHomepageSeed()` (2→7 sections) | `site-pages.ts` |
+| Import paths | Replace 32 deep relative imports → workspace aliases | 20 files in `apps/web/` |
+| Empty packages | Delete `packages/ui`, `packages/config` | 5 files removed |
+| Stale .d.ts | Remove 11 generated files from `src/` | `packages/shared/`, `packages/content/` |
+| Build config | Exclude tests from `data` dist output | `tsconfig.build.json` |
+| Favicon | Add brand-matching M monogram (SVG + ICO) | `apps/web/public/`, `root.tsx` |
+
+## New Files Created
+
+- `packages/content/src/parsers.ts` — shared parser helpers
+- `packages/data/src/d1/parse-json.ts` — shared JSON parser
+- `apps/web/app/lib/cloudflare-env.ts` — unified Cloudflare context type
+- `apps/web/app/loaders/image-helpers.ts` — shared image URL builders
+- `apps/web/app/loaders/fixtures.ts` — single source of truth for all fixture data
+- `apps/web/public/favicon.svg` — SVG favicon
+- `apps/web/public/favicon.ico` — ICO favicon (16/32/48px)
+
+## Files Deleted
+
+- `apps/web/app/routes/site-page-fixtures.ts` (orphaned fixtures)
+- `packages/ui/` (empty package, 0 consumers)
+- `packages/config/` (empty package, 0 consumers)
+- 11 stale `.d.ts` files in `packages/shared/src/` and `packages/content/src/`
+
+
+### Git Commits
+
+| Hash | Message |
+|------|---------|
+| `362e9d4` | (see git log) |
+
+### Testing
+
+- [OK] (Add test results)
+
+### Status
+
+[OK] **Completed**
+
+### Next Steps
+
+- None - task complete
